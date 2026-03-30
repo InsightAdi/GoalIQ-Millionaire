@@ -260,7 +260,7 @@
   },
   {
     "id": 44,
-    "question": "Which country beat Germany 7-1 in the 2014 World Cup semi-final?",
+    "question": "Which country Germany beat 7-1 in the 2014 World Cup semi-final?",
     "options": {"A": "Argentina", "B": "Brazil", "C": "France", "D": "Netherlands"},
     "answer": "B", "prize": 20000, "difficulty": "medium"
   },
