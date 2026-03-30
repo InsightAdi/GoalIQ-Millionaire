@@ -3,989 +3,1129 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>GoalIQ Millionaire</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
+<title>GoalIQ Millionaire ⚽</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
-  --green:#00e676;--green2:#00c853;--green-dim:#004d20;
-  --gold:#ffd600;--gold2:#ffab00;
-  --red:#ff1744;--red2:#d50000;
-  --bg:#020a04;--surface:#071a09;--surface2:#0d2610;--surface3:#122e14;
-  --text:#e8f5e9;--text-dim:#81c784;--border:#1b5e20;
+  --green:#00ff87;--green2:#00c853;--green3:#004d20;
+  --gold:#ffd600;--gold2:#ff9500;
+  --red:#ff1744;--red2:#b71c1c;
+  --blue:#00b0ff;
+  --bg:#050505;--surface:#0f0f0f;--surface2:#181818;--surface3:#222;
+  --text:#ffffff;--text-dim:#888;--border:#2a2a2a;--border2:#333;
 }
-body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(0,230,118,0.03) 60px,rgba(0,230,118,0.03) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(0,230,118,0.03) 60px,rgba(0,230,118,0.03) 61px);pointer-events:none;z-index:0;}
-body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(0,200,83,0.08) 0%,transparent 70%);pointer-events:none;z-index:0;}
-#app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;min-height:100vh;overflow-x:hidden;}
 
-.screen{width:100%;max-width:720px;display:none;animation:fadeUp .4s ease both;}
+/* Animated grid bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(0,255,135,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,135,0.03) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0;
+}
+/* Top glow */
+body::after{
+  content:'';position:fixed;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--green),var(--gold),var(--green),transparent);
+  z-index:10;
+}
+
+#app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;}
+
+.screen{width:100%;max-width:700px;display:none;animation:fadeUp .35s ease both;}
 .screen.active{display:block;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-/* INTRO */
-#screen-intro{text-align:center;}
-.trophy-ring{width:120px;height:120px;margin:0 auto 24px;border-radius:50%;border:3px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:52px;box-shadow:0 0 40px rgba(0,230,118,0.3);animation:pulse 2.5s ease-in-out infinite;}
-@keyframes pulse{0%,100%{box-shadow:0 0 40px rgba(0,230,118,0.3)}50%{box-shadow:0 0 70px rgba(0,230,118,0.5)}}
-.game-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(42px,8vw,72px);letter-spacing:4px;color:var(--gold);text-shadow:0 0 40px rgba(255,214,0,0.4);line-height:1;}
-.game-subtitle{font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:6px;color:var(--green);margin:8px 0 28px;text-transform:uppercase;}
-.name-input-wrap{margin:0 auto 20px;max-width:380px;}
-.name-input-wrap label{display:block;font-size:12px;letter-spacing:3px;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;}
-.name-input-wrap input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text);font-family:'Barlow',sans-serif;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s;}
-.name-input-wrap input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,230,118,0.15);}
-.name-input-wrap input::placeholder{color:#2e7d32;}
-.mode-label{font-size:12px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px;}
-.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 auto 24px;max-width:520px;}
-.mode-card{background:var(--surface);border:2px solid var(--border);border-radius:12px;padding:18px 14px;cursor:pointer;transition:all .2s;text-align:center;}
-.mode-card:hover,.mode-card.selected{border-color:var(--green);background:var(--surface2);transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,230,118,0.15);}
-.mode-icon{font-size:30px;margin-bottom:8px;}
-.mode-name{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:2px;color:var(--gold);}
-.mode-desc{font-size:12px;color:var(--text-dim);margin-top:5px;line-height:1.4;}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:8px;border:none;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s;text-transform:uppercase;}
-.btn-primary{background:var(--green2);color:#000;}
-.btn-primary:hover{background:var(--green);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,200,83,0.4);}
-.btn-secondary{background:var(--surface2);color:var(--text);border:1.5px solid var(--border);}
+/* ══════════════════ INTRO ══════════════════ */
+#screen-intro{text-align:center;padding:10px 0;}
+
+.logo-wrap{margin-bottom:20px;position:relative;display:inline-block;}
+.logo-ball{
+  width:100px;height:100px;border-radius:50%;
+  background:linear-gradient(135deg,#111 0%,#222 100%);
+  border:2px solid var(--green);
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;margin:0 auto;
+  box-shadow:0 0 0 4px rgba(0,255,135,0.1),0 0 40px rgba(0,255,135,0.2),0 0 80px rgba(0,255,135,0.1);
+  animation:logoPulse 3s ease-in-out infinite;
+}
+@keyframes logoPulse{0%,100%{box-shadow:0 0 0 4px rgba(0,255,135,0.1),0 0 40px rgba(0,255,135,0.2)}50%{box-shadow:0 0 0 8px rgba(0,255,135,0.15),0 0 60px rgba(0,255,135,0.35)}}
+
+.game-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(52px,10vw,88px);
+  letter-spacing:6px;
+  background:linear-gradient(135deg,var(--green) 0%,var(--gold) 50%,var(--green) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin-bottom:4px;
+  text-shadow:none;
+}
+.game-subtitle{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:16px;letter-spacing:8px;
+  color:var(--text-dim);margin-bottom:28px;text-transform:uppercase;
+}
+
+.name-box{margin:0 auto 20px;max-width:360px;}
+.name-box label{display:block;font-size:11px;letter-spacing:4px;color:var(--green);margin-bottom:8px;text-transform:uppercase;font-weight:600;}
+.name-box input{
+  width:100%;background:var(--surface2);
+  border:1.5px solid var(--border2);
+  border-radius:6px;padding:13px 16px;
+  color:var(--text);font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:600;
+  outline:none;transition:border-color .2s,box-shadow .2s;
+  letter-spacing:1px;
+}
+.name-box input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,255,135,0.1);}
+.name-box input::placeholder{color:#444;font-weight:500;}
+
+.mode-label{font-size:11px;letter-spacing:4px;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px;font-weight:600;}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 auto 24px;max-width:500px;}
+.mode-card{
+  background:var(--surface);
+  border:1.5px solid var(--border2);
+  border-radius:10px;padding:16px 12px;cursor:pointer;
+  transition:all .2s;text-align:center;position:relative;overflow:hidden;
+}
+.mode-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,255,135,0.05),transparent);opacity:0;transition:opacity .2s;}
+.mode-card:hover::before,.mode-card.selected::before{opacity:1;}
+.mode-card:hover,.mode-card.selected{border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,255,135,0.12);}
+.mode-card.selected{border-color:var(--green);background:var(--surface2);}
+.mode-icon{font-size:26px;margin-bottom:6px;}
+.mode-name{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;}
+.mode-desc{font-size:12px;color:var(--text-dim);margin-top:4px;line-height:1.4;font-weight:500;}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 32px;border-radius:6px;border:none;
+  font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;
+  letter-spacing:3px;cursor:pointer;transition:all .2s;text-transform:uppercase;
+  position:relative;overflow:hidden;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--green2),var(--green));
+  color:#000;box-shadow:0 4px 20px rgba(0,200,83,0.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,200,83,0.45);}
+.btn-primary:active{transform:translateY(0);}
+.btn-secondary{
+  background:var(--surface2);color:var(--text);
+  border:1.5px solid var(--border2);
+}
 .btn-secondary:hover{border-color:var(--green);color:var(--green);}
-.btn-danger{background:transparent;color:var(--red);border:1.5px solid var(--red);}
-.btn-danger:hover{background:var(--red);color:#fff;}
-.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;}
+.btn-danger{
+  background:transparent;color:var(--red);
+  border:1.5px solid rgba(255,23,68,0.4);
+  font-size:14px;padding:10px 20px;letter-spacing:2px;
+}
+.btn-danger:hover{background:rgba(255,23,68,0.1);border-color:var(--red);}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none!important;}
 .intro-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.intro-hint{margin-top:18px;font-size:12px;color:#444;letter-spacing:2px;font-weight:600;}
 
-/* GAME */
-.game-header{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 20px;margin-bottom:14px;}
+/* ══════════════════ GAME SCREEN ══════════════════ */
+.game-header{
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:10px;padding:12px 18px;margin-bottom:12px;
+}
 .player-info{display:flex;align-items:center;gap:10px;}
-.player-avatar{width:38px;height:38px;border-radius:50%;background:var(--green-dim);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;}
-.player-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:1px;}
-.player-mode{font-size:12px;color:var(--text-dim);}
+.player-avatar{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--green3);border:2px solid var(--green);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+.player-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:1px;color:var(--text);}
+.player-mode{font-size:11px;color:var(--text-dim);letter-spacing:2px;font-weight:600;}
 .prize-display{text-align:right;}
-.prize-label{font-size:11px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;}
-.prize-amount{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:2px;}
+.prize-label{font-size:10px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;font-weight:600;}
+.prize-amount{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--gold);letter-spacing:2px;line-height:1;}
 
 /* TIMER */
-.timer-wrap{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:14px;}
-.timer-bar-wrap{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;}
-.timer-bar{height:100%;border-radius:4px;transition:width 1s linear,background .3s;}
-.timer-count{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;min-width:44px;text-align:right;}
-.timer-count.warning{color:var(--red);animation:timerBlink .5s ease-in-out infinite;}
-@keyframes timerBlink{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.timer-wrap{
+  display:flex;align-items:center;gap:12px;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:8px;padding:10px 16px;margin-bottom:12px;
+}
+.timer-bar-wrap{flex:1;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+.timer-bar{height:100%;border-radius:3px;transition:width 1s linear,background .5s;}
+.timer-num{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;min-width:42px;text-align:right;transition:color .3s;}
+.timer-num.warn{color:var(--red);animation:warnPulse .4s ease-in-out infinite;}
+@keyframes warnPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 
 /* PROGRESS */
-.progress-wrap{margin-bottom:14px;}
-.progress-info{display:flex;justify-content:space-between;font-size:12px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;}
-.progress-bar{height:4px;background:var(--surface2);border-radius:4px;overflow:hidden;}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--green2),var(--gold));border-radius:4px;transition:width .5s ease;}
+.progress-wrap{margin-bottom:12px;}
+.progress-info{display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-weight:600;}
+.progress-bar{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--green2),var(--gold));border-radius:2px;transition:width .6s ease;}
 
 /* LADDER */
-.ladder-mini{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:14px;}
-.ladder-mini-title{font-size:11px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:9px;}
-.ladder-steps{display:flex;gap:5px;flex-wrap:wrap;}
-.ladder-step{padding:4px 9px;border-radius:20px;font-size:11px;font-family:'Barlow Condensed',sans-serif;font-weight:600;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);transition:all .3s;}
-.ladder-step.current{background:rgba(0,200,83,0.2);border-color:var(--green);color:var(--green);}
-.ladder-step.completed{background:rgba(255,214,0,0.1);border-color:rgba(255,214,0,0.3);color:var(--gold);}
-.ladder-step.safe{border-style:dashed;}
+.ladder-wrap{background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:10px 14px;margin-bottom:12px;}
+.ladder-title{font-size:10px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px;font-weight:600;}
+.ladder-steps{display:flex;gap:4px;flex-wrap:wrap;}
+.ladder-step{
+  padding:3px 8px;border-radius:4px;font-size:11px;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;
+  background:var(--surface2);border:1px solid var(--border);color:#555;
+  transition:all .25s;
+}
+.ladder-step.done{background:rgba(255,214,0,0.08);border-color:rgba(255,214,0,0.2);color:rgba(255,214,0,0.6);}
+.ladder-step.now{background:rgba(0,255,135,0.12);border-color:var(--green);color:var(--green);box-shadow:0 0 8px rgba(0,255,135,0.2);}
+.ladder-step.safe-q{border-style:dashed;}
 
-.safe-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,214,0,0.1);border:1px solid rgba(255,214,0,0.3);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--gold);margin-bottom:12px;}
+/* SAFE BADGE */
+.safe-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,214,0,0.08);border:1px solid rgba(255,214,0,0.25);
+  border-radius:4px;padding:5px 12px;font-size:12px;
+  color:var(--gold);margin-bottom:10px;font-weight:600;letter-spacing:1px;
+}
 
 /* LIFELINE RESULT */
-.lifeline-result{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:13px;font-size:14px;line-height:1.6;}
-.lifeline-result strong{color:var(--gold);}
+.ll-result{
+  background:var(--surface2);border:1px solid var(--border2);
+  border-left:3px solid var(--gold);
+  border-radius:8px;padding:12px 16px;margin-bottom:12px;
+  font-size:14px;line-height:1.6;font-weight:500;
+}
+.ll-result strong{color:var(--gold);}
 .poll-row{display:flex;align-items:center;gap:10px;margin:5px 0;}
-.poll-key{width:20px;font-weight:700;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:15px;}
-.poll-bar-wrap{flex:1;background:var(--surface);border-radius:4px;height:16px;overflow:hidden;}
-.poll-bar{height:100%;background:linear-gradient(90deg,var(--green-dim),var(--green2));border-radius:4px;width:0%;transition:width 1s ease;}
-.poll-pct{width:36px;text-align:right;font-size:12px;color:var(--text-dim);opacity:0;transition:opacity .5s ease;}
+.poll-key{width:18px;font-weight:700;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:16px;}
+.poll-bar-wrap{flex:1;background:var(--surface);border-radius:3px;height:14px;overflow:hidden;}
+.poll-bar{height:100%;background:linear-gradient(90deg,var(--green3),var(--green2));border-radius:3px;width:0%;transition:width .9s ease;}
+.poll-pct{width:34px;text-align:right;font-size:12px;color:var(--text-dim);opacity:0;transition:opacity .4s ease .9s;font-weight:600;}
 
-/* QUESTION */
-.question-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:14px;position:relative;overflow:hidden;}
-.question-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green2),var(--gold),var(--green2));}
-.question-num{font-size:11px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
-.question-text{font-size:clamp(16px,2.4vw,20px);font-weight:600;line-height:1.5;}
+/* QUESTION CARD */
+.question-card{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-top:3px solid var(--gold);
+  border-radius:10px;padding:22px;margin-bottom:12px;
+  position:relative;
+}
+.q-meta{
+  font-size:11px;letter-spacing:3px;color:var(--gold);
+  text-transform:uppercase;margin-bottom:10px;font-weight:700;
+  font-family:'Barlow Condensed',sans-serif;
+}
+.q-text{
+  font-size:clamp(17px,2.6vw,22px);font-weight:700;
+  line-height:1.45;color:var(--text);letter-spacing:.3px;
+}
 
-/* OPTIONS */
+/* OPTIONS — the big redesign */
 .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.option-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:14px 15px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;text-align:left;font-family:'Barlow',sans-serif;width:100%;}
-.option-btn:hover:not(:disabled){border-color:var(--green);background:var(--surface2);transform:translateY(-2px);box-shadow:0 5px 18px rgba(0,230,118,0.1);}
-.option-key{width:28px;height:28px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--gold);flex-shrink:0;transition:all .2s;}
-.option-text{font-size:14px;color:var(--text);line-height:1.3;}
-.option-btn.correct{border-color:var(--green)!important;background:rgba(0,200,83,0.15)!important;}
-.option-btn.correct .option-key{background:var(--green2);border-color:var(--green2);color:#000;}
-.option-btn.wrong{border-color:var(--red)!important;background:rgba(255,23,68,0.1)!important;}
-.option-btn.wrong .option-key{background:var(--red2);border-color:var(--red2);color:#fff;}
-.option-btn.eliminated{opacity:.22;cursor:not-allowed;pointer-events:none;transition:opacity .4s ease;}
-.option-btn.flickering{animation:flicker .15s ease-in-out;}
-@keyframes flicker{0%,100%{opacity:1}50%{opacity:0.2}}
-.option-btn:disabled{cursor:not-allowed;}
+.opt{
+  background:var(--surface);
+  border:1.5px solid var(--border2);
+  border-radius:8px;
+  padding:0;
+  display:flex;align-items:stretch;
+  cursor:pointer;
+  transition:border-color .15s,background .15s,transform .15s,box-shadow .15s;
+  text-align:left;
+  font-family:'Rajdhani',sans-serif;
+  width:100%;
+  /* Fix mobile highlight persistence */
+  -webkit-appearance:none;
+  outline:none;
+  /* Prevent touch state from sticking */
+  touch-action:manipulation;
+}
+.opt:not(:disabled):hover{
+  border-color:var(--green);
+  background:var(--surface2);
+  transform:translateY(-1px);
+  box-shadow:0 4px 16px rgba(0,255,135,0.1);
+}
+/* Mobile active state — reset immediately */
+.opt:not(:disabled):active{
+  transform:scale(0.98);
+  border-color:var(--blue);
+  background:rgba(0,176,255,0.08);
+}
+.opt-key{
+  width:44px;min-width:44px;
+  background:var(--surface2);
+  border-right:1px solid var(--border2);
+  border-radius:7px 0 0 7px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:20px;
+  color:var(--gold);
+  transition:background .15s,color .15s;
+  flex-shrink:0;
+}
+.opt-text{
+  padding:14px 14px;font-size:15px;font-weight:600;
+  color:var(--text);line-height:1.3;letter-spacing:.3px;
+  display:flex;align-items:center;
+}
+/* States */
+.opt.correct{border-color:var(--green)!important;background:rgba(0,255,135,0.08)!important;transform:none!important;}
+.opt.correct .opt-key{background:var(--green2)!important;color:#000!important;border-color:var(--green2)!important;}
+.opt.wrong{border-color:var(--red)!important;background:rgba(255,23,68,0.08)!important;transform:none!important;}
+.opt.wrong .opt-key{background:var(--red2)!important;color:#fff!important;border-color:var(--red2)!important;}
+.opt.gone{opacity:.18;pointer-events:none;transition:opacity .4s;}
+.opt:disabled{cursor:not-allowed;}
+/* Remove all hover/active states when disabled */
+.opt:disabled:hover{transform:none;box-shadow:none;border-color:var(--border2);background:var(--surface);}
+
+/* Flicker animation for 50/50 */
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:.15}}
+.opt.flicker{animation:flicker .18s ease-in-out;}
 
 /* LIFELINES */
-.lifelines-row{display:flex;gap:8px;margin-bottom:13px;flex-wrap:wrap;}
-.lifeline-btn{flex:1;min-width:100px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:8px 11px;display:flex;align-items:center;gap:6px;cursor:pointer;transition:all .2s;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;color:var(--text);}
-.lifeline-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
-.lifeline-btn:disabled{opacity:.3;cursor:not-allowed;text-decoration:line-through;}
-.lifeline-icon{font-size:15px;}
-.action-row{display:flex;gap:10px;justify-content:flex-end;}
+.lifelines-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.ll-btn{
+  flex:1;min-width:95px;
+  background:var(--surface);
+  border:1.5px solid var(--border2);
+  border-radius:8px;padding:9px 10px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  cursor:pointer;transition:all .2s;
+  font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:1.5px;color:var(--text);text-transform:uppercase;
+}
+.ll-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold);background:rgba(255,214,0,0.05);}
+.ll-btn:disabled{opacity:.25;cursor:not-allowed;text-decoration:line-through;}
+.ll-icon{font-size:14px;}
+.action-row{display:flex;justify-content:flex-end;margin-bottom:8px;}
 
-/* RESULT */
-.result-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(6px);}
-.result-overlay.show{display:flex;}
-.result-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px;max-width:440px;width:90%;text-align:center;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both;}
-@keyframes popIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
-.result-icon{font-size:64px;margin-bottom:16px;}
-.result-title{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:3px;margin-bottom:8px;}
-.result-title.win{color:var(--gold);}
-.result-title.lose{color:var(--red);}
-.result-prize{font-size:32px;font-weight:700;color:var(--green);margin-bottom:8px;}
-.result-msg{color:var(--text-dim);margin-bottom:28px;line-height:1.6;}
-.result-btns{display:flex;gap:12px;justify-content:center;}
+/* ══════════════════ RESULT OVERLAY ══════════════════ */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.92);
+  display:none;align-items:center;justify-content:center;
+  z-index:200;backdrop-filter:blur(8px);
+}
+.overlay.show{display:flex;}
+.result-card{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:16px;padding:36px 32px;
+  max-width:420px;width:92%;text-align:center;
+  animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both;
+  position:relative;overflow:hidden;
+}
+.result-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--green),var(--gold),var(--green));
+}
+@keyframes popIn{from{opacity:0;transform:scale(.82)}to{opacity:1;transform:scale(1)}}
+.res-icon{font-size:60px;margin-bottom:12px;display:block;}
+.res-title{font-family:'Bebas Neue',sans-serif;font-size:46px;letter-spacing:4px;margin-bottom:6px;}
+.res-title.win{color:var(--gold);}
+.res-title.lose{color:var(--red);}
+.res-prize{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--green);margin-bottom:6px;letter-spacing:2px;}
+.res-msg{color:var(--text-dim);margin-bottom:24px;line-height:1.6;font-size:15px;font-weight:500;}
+.res-btns{display:flex;gap:10px;justify-content:center;}
 
-/* LEADERBOARD */
+/* ══════════════════ LEADERBOARD ══════════════════ */
 #screen-leaderboard{text-align:center;}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,42px);letter-spacing:3px;color:var(--gold);margin-bottom:4px;}
-.section-sub{font-size:13px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:24px;}
-.lb-table{width:100%;border-collapse:collapse;margin:16px 0;}
-.lb-table th{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;padding:10px 14px;border-bottom:1px solid var(--border);}
-.lb-table td{padding:12px 14px;border-bottom:1px solid rgba(27,94,32,0.3);font-size:15px;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,48px);letter-spacing:4px;color:var(--gold);margin-bottom:2px;}
+.sec-sub{font-size:11px;letter-spacing:4px;color:var(--text-dim);text-transform:uppercase;margin-bottom:20px;font-weight:600;}
+.lb-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:14px;}
+.lb-tab{
+  padding:7px 18px;border-radius:4px;
+  border:1.5px solid var(--border2);background:var(--surface);
+  color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:2px;cursor:pointer;
+  transition:all .2s;text-transform:uppercase;
+}
+.lb-tab.active{border-color:var(--green);color:var(--green);background:rgba(0,255,135,0.06);}
+.lb-table{width:100%;border-collapse:collapse;margin:12px 0;}
+.lb-table th{
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;
+  letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;
+  padding:8px 12px;border-bottom:1px solid var(--border2);font-weight:700;
+}
+.lb-table td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:15px;font-weight:600;}
 .lb-table tr:hover td{background:var(--surface2);}
 .lb-rank{font-family:'Bebas Neue',sans-serif;font-size:22px;}
-.lb-prize{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
-.lb-empty{color:var(--text-dim);padding:40px;font-style:italic;}
-.lb-loading{color:var(--text-dim);padding:30px;font-size:14px;letter-spacing:2px;}
-.lb-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
-.lb-tab{padding:8px 20px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all .2s;}
-.lb-tab.active{border-color:var(--green);color:var(--green);background:rgba(0,200,83,0.1);}
+.lb-prize{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);letter-spacing:1px;}
+.lb-empty{color:var(--text-dim);padding:40px;font-size:15px;font-style:italic;font-weight:500;}
+.lb-loading{color:var(--text-dim);padding:30px;font-size:13px;letter-spacing:2px;font-weight:600;}
 
-/* DRUM ROLL */
-.drumroll-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.93);display:none;align-items:center;justify-content:center;z-index:150;flex-direction:column;gap:18px;backdrop-filter:blur(8px);}
-.drumroll-overlay.show{display:flex;}
-.drum-emoji{font-size:56px;animation:drumBounce .25s ease-in-out infinite alternate;}
-@keyframes drumBounce{from{transform:scale(1) rotate(-5deg)}to{transform:scale(1.15) rotate(5deg)}}
-.drumroll-qnum{font-family:'Bebas Neue',sans-serif;font-size:clamp(38px,7vw,64px);letter-spacing:6px;color:var(--gold);animation:drumGlow .25s ease-in-out infinite alternate;}
-@keyframes drumGlow{from{text-shadow:0 0 20px rgba(255,214,0,0.4)}to{text-shadow:0 0 60px rgba(255,214,0,1)}}
-.drumroll-for{font-family:'Barlow Condensed',sans-serif;font-size:20px;letter-spacing:4px;color:var(--green);text-transform:uppercase;}
-.drumroll-prize-amt{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,48px);letter-spacing:3px;color:var(--text);}
+/* ══════════════════ DRUM ROLL ══════════════════ */
+.drumroll-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,0.96);
+  display:none;align-items:center;justify-content:center;
+  z-index:300;flex-direction:column;gap:16px;
+  backdrop-filter:blur(12px);
+}
+.drumroll-ov.show{display:flex;}
+.dr-drum{font-size:52px;animation:drBounce .22s ease-in-out infinite alternate;}
+@keyframes drBounce{from{transform:scale(1)rotate(-6deg)}to{transform:scale(1.18)rotate(6deg)}}
+.dr-qnum{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(42px,8vw,70px);letter-spacing:8px;
+  background:linear-gradient(135deg,var(--green),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:drGlow .22s ease-in-out infinite alternate;
+}
+@keyframes drGlow{from{filter:brightness(1)}to{filter:brightness(1.4)}}
+.dr-for{font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:5px;color:var(--text-dim);text-transform:uppercase;font-weight:700;}
+.dr-prize{font-family:'Bebas Neue',sans-serif;font-size:clamp(30px,5vw,50px);color:var(--text);letter-spacing:3px;}
 
-/* LIFELINE ANIMATION OVERLAY */
-.lifeline-anim-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:none;align-items:center;justify-content:center;z-index:160;flex-direction:column;gap:20px;backdrop-filter:blur(10px);}
-.lifeline-anim-overlay.show{display:flex;}
-.lifeline-anim-icon{font-size:64px;}
-.lifeline-anim-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,52px);letter-spacing:5px;color:var(--gold);}
-.lifeline-anim-msg{font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:3px;color:var(--green);text-transform:uppercase;}
-.lifeline-anim-dots span{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);margin:0 4px;animation:dotBounce 1s ease-in-out infinite;}
-.lifeline-anim-dots span:nth-child(2){animation-delay:.2s;}
-.lifeline-anim-dots span:nth-child(3){animation-delay:.4s;}
-@keyframes dotBounce{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-12px);opacity:1}}
-.phone-ring{font-size:42px;animation:phoneShake .4s ease-in-out infinite;}
-@keyframes phoneShake{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
-.typewriter{font-family:'Barlow',sans-serif;font-size:16px;color:var(--text);max-width:400px;text-align:center;line-height:1.6;min-height:60px;}
+/* ══════════════════ LIFELINE ANIM OVERLAY ══════════════════ */
+.ll-anim-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,0.95);
+  display:none;align-items:center;justify-content:center;
+  z-index:250;flex-direction:column;gap:16px;backdrop-filter:blur(12px);
+}
+.ll-anim-ov.show{display:flex;}
+.ll-anim-icon{font-size:60px;}
+.ll-anim-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,6vw,54px);letter-spacing:5px;color:var(--gold);}
+.ll-anim-msg{font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:4px;color:var(--green);text-transform:uppercase;font-weight:700;}
+.ll-dots span{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);margin:0 4px;animation:dotUp 1s ease-in-out infinite;}
+.ll-dots span:nth-child(2){animation-delay:.2s;}
+.ll-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes dotUp{0%,100%{transform:translateY(0);opacity:.3}50%{transform:translateY(-10px);opacity:1}}
+.phone-shake{font-size:40px;animation:phoneShk .35s ease-in-out infinite;}
+@keyframes phoneShk{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+.typewriter{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;color:var(--text);max-width:380px;text-align:center;line-height:1.6;min-height:56px;}
 
 /* CONFETTI */
-.confetti-piece{position:fixed;width:8px;height:8px;pointer-events:none;z-index:200;animation:confettiFall linear forwards;}
-@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+.cp{position:fixed;width:7px;height:7px;pointer-events:none;z-index:400;animation:cpFall linear forwards;}
+@keyframes cpFall{0%{transform:translateY(-10px)rotate(0);opacity:1}100%{transform:translateY(100vh)rotate(720deg);opacity:0}}
 
-@media(max-width:540px){
+@media(max-width:500px){
   .options-grid{grid-template-columns:1fr;}
-  .mode-cards{grid-template-columns:1fr;}
+  .mode-grid{grid-template-columns:1fr;}
   .game-header{flex-direction:column;gap:10px;text-align:center;}
+  .lifelines-row{gap:6px;}
+  .ll-btn{font-size:12px;padding:8px 8px;}
 }
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- INTRO -->
-  <div id="screen-intro" class="screen active">
-    <div class="trophy-ring">⚽</div>
-    <div class="game-title">GOAlIQ-MILLIONAIRE</div>
-    <div class="game-subtitle">THE ULTIMATE FOOTBALL QUIZ</div>
-    <div class="name-input-wrap">
-      <label>Your Name</label>
-      <input type="text" id="player-name-input" placeholder="Enter your name..." maxlength="20" autocomplete="off"/>
-    </div>
-    <p class="mode-label">Select Game Mode</p>
-    <div class="mode-cards">
-      <div class="mode-card selected" onclick="selectMode('journey',this)">
-        <div class="mode-icon">🚀</div>
-        <div class="mode-name">Full Journey</div>
-        <div class="mode-desc">All 15 questions — Easy → Medium → Hard. The real Millionaire experience.</div>
-      </div>
-      <div class="mode-card" onclick="selectMode('easy',this)">
-        <div class="mode-icon">🟢</div>
-        <div class="mode-name">Easy Only</div>
-        <div class="mode-desc">5 beginner-level questions. Great for a warm-up.</div>
-      </div>
-      <div class="mode-card" onclick="selectMode('medium',this)">
-        <div class="mode-icon">🟡</div>
-        <div class="mode-name">Medium Only</div>
-        <div class="mode-desc">6 club & tournament questions.</div>
-      </div>
-      <div class="mode-card" onclick="selectMode('hard',this)">
-        <div class="mode-icon">🔴</div>
-        <div class="mode-name">Hard Only</div>
-        <div class="mode-desc">4 deep trivia questions. Experts only.</div>
-      </div>
-    </div>
-    <div class="intro-btns">
-      <button class="btn btn-primary" onclick="startGame()">▶ &nbsp;Play Game</button>
-      <button class="btn btn-secondary" onclick="showScreen('screen-leaderboard');renderLeaderboard('global')">🏆 &nbsp;Leaderboard</button>
-    </div>
-    <p style="margin-top:20px;font-size:12px;color:#2e7d32;letter-spacing:1px;">⏱️ 30 sec per question · 3 lifelines · ₹1,00,00,000 to win · 90 question bank</p>
+<!-- ══ INTRO ══ -->
+<div id="screen-intro" class="screen active">
+  <div class="logo-wrap"><div class="logo-ball">⚽</div></div>
+  <div class="game-title">GoalIQ</div>
+  <div class="game-subtitle">Millionaire Football Quiz</div>
+  <div class="name-box">
+    <label>Your Name</label>
+    <input type="text" id="name-input" placeholder="Enter your name..." maxlength="20" autocomplete="off"/>
   </div>
+  <p class="mode-label">Select Mode</p>
+  <div class="mode-grid">
+    <div class="mode-card selected" onclick="pickMode('journey',this)">
+      <div class="mode-icon">🚀</div>
+      <div class="mode-name">Full Journey</div>
+      <div class="mode-desc">15 Qs — Easy → Medium → Hard</div>
+    </div>
+    <div class="mode-card" onclick="pickMode('easy',this)">
+      <div class="mode-icon">🟢</div>
+      <div class="mode-name">Easy</div>
+      <div class="mode-desc">5 beginner questions</div>
+    </div>
+    <div class="mode-card" onclick="pickMode('medium',this)">
+      <div class="mode-icon">🟡</div>
+      <div class="mode-name">Medium</div>
+      <div class="mode-desc">6 club & history Qs</div>
+    </div>
+    <div class="mode-card" onclick="pickMode('hard',this)">
+      <div class="mode-icon">🔴</div>
+      <div class="mode-name">Hard</div>
+      <div class="mode-desc">4 expert-level Qs</div>
+    </div>
+  </div>
+  <div class="intro-btns">
+    <button class="btn btn-primary" onclick="startGame()">▶ &nbsp;Play Now</button>
+    <button class="btn btn-secondary" onclick="showScreen('screen-leaderboard');renderLB('global')">🏆 &nbsp;Leaderboard</button>
+  </div>
+  <p class="intro-hint">⏱ 30 SEC PER QUESTION · 3 LIFELINES · ₹1,00,00,000 TO WIN</p>
+</div>
 
-  <!-- GAME -->
-  <div id="screen-game" class="screen">
-    <div class="game-header">
-      <div class="player-info">
-        <div class="player-avatar">⚽</div>
-        <div>
-          <div class="player-name" id="hdr-name">Player</div>
-          <div class="player-mode" id="hdr-mode">Full Journey</div>
-        </div>
-      </div>
-      <div class="prize-display">
-        <div class="prize-label">Current Prize</div>
-        <div class="prize-amount" id="hdr-prize">₹0</div>
+<!-- ══ GAME ══ -->
+<div id="screen-game" class="screen">
+  <div class="game-header">
+    <div class="player-info">
+      <div class="player-avatar">⚽</div>
+      <div>
+        <div class="player-name" id="hdr-name">Player</div>
+        <div class="player-mode" id="hdr-mode">FULL JOURNEY</div>
       </div>
     </div>
-    <div class="timer-wrap">
-      <span style="font-size:20px">⏱️</span>
-      <div class="timer-bar-wrap"><div class="timer-bar" id="timer-bar" style="width:100%;background:var(--green2)"></div></div>
-      <div class="timer-count" id="timer-count">30</div>
-    </div>
-    <div class="progress-wrap">
-      <div class="progress-info">
-        <span id="prog-label">Question 1 of 15</span>
-        <span id="prog-pct">0%</span>
-      </div>
-      <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
-    </div>
-    <div class="ladder-mini">
-      <div class="ladder-mini-title">Prize Ladder</div>
-      <div class="ladder-steps" id="ladder-steps"></div>
-    </div>
-    <div id="safe-badge" class="safe-badge" style="display:none">🔒 Safe Haven — ₹<span id="safe-amount">0</span> guaranteed</div>
-    <div id="lifeline-result" class="lifeline-result" style="display:none"></div>
-    <div class="question-card">
-      <div class="question-num" id="q-num">Question 1</div>
-      <div class="question-text" id="q-text">Loading...</div>
-    </div>
-    <div class="options-grid" id="options-grid"></div>
-    <div class="lifelines-row">
-      <button class="lifeline-btn" id="ll-5050" onclick="useLifeline('fifty')"><span class="lifeline-icon">✂️</span>50 / 50</button>
-      <button class="lifeline-btn" id="ll-poll" onclick="useLifeline('poll')"><span class="lifeline-icon">👥</span>Audience Poll</button>
-      <button class="lifeline-btn" id="ll-phone" onclick="useLifeline('phone')"><span class="lifeline-icon">📞</span>Phone Friend</button>
-    </div>
-    <div class="action-row">
-      <button class="btn btn-danger" onclick="quitGame()">🚪 Quit & Take Money</button>
+    <div class="prize-display">
+      <div class="prize-label">Prize Won</div>
+      <div class="prize-amount" id="hdr-prize">₹0</div>
     </div>
   </div>
 
-  <!-- LEADERBOARD -->
-  <div id="screen-leaderboard" class="screen">
-    <div class="section-title">🏆 Hall of Fame</div>
-    <div class="section-sub">Top GoalIQ Millionaire Champions</div>
-    <div class="lb-tabs">
-      <div class="lb-tab active" id="tab-global" onclick="renderLeaderboard('global')">🌍 Global</div>
-      <div class="lb-tab" id="tab-local" onclick="renderLeaderboard('local')">📱 My Scores</div>
-    </div>
-    <div id="lb-content"></div>
-    <div style="text-align:center;margin-top:16px;">
-      <button class="btn btn-secondary" onclick="showScreen('screen-intro')">← Back to Menu</button>
-    </div>
+  <div class="timer-wrap">
+    <span style="font-size:18px">⏱</span>
+    <div class="timer-bar-wrap"><div class="timer-bar" id="timer-bar" style="width:100%;background:var(--green2)"></div></div>
+    <div class="timer-num" id="timer-num">30</div>
   </div>
+
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span id="prog-label">Q1 of 15</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+
+  <div class="ladder-wrap">
+    <div class="ladder-title">Prize Ladder</div>
+    <div class="ladder-steps" id="ladder-steps"></div>
+  </div>
+
+  <div id="safe-badge" class="safe-badge" style="display:none">🔒 Safe Haven — ₹<span id="safe-amt">0</span></div>
+  <div id="ll-result" class="ll-result" style="display:none"></div>
+
+  <div class="question-card">
+    <div class="q-meta" id="q-meta">Q1 · EASY · ₹1,000</div>
+    <div class="q-text" id="q-text">Loading question...</div>
+  </div>
+
+  <div class="options-grid" id="options-grid"></div>
+
+  <div class="lifelines-row">
+    <button class="ll-btn" id="ll-5050" onclick="useLifeline('fifty')"><span class="ll-icon">✂️</span>50/50</button>
+    <button class="ll-btn" id="ll-poll" onclick="useLifeline('poll')"><span class="ll-icon">👥</span>Audience</button>
+    <button class="ll-btn" id="ll-phone" onclick="useLifeline('phone')"><span class="ll-icon">📞</span>Phone</button>
+  </div>
+  <div class="action-row">
+    <button class="btn btn-danger" onclick="quitGame()">🚪 Quit & Take Money</button>
+  </div>
+</div>
+
+<!-- ══ LEADERBOARD ══ -->
+<div id="screen-leaderboard" class="screen">
+  <div class="sec-title">🏆 Hall of Fame</div>
+  <div class="sec-sub">GoalIQ Millionaire Champions</div>
+  <div class="lb-tabs">
+    <div class="lb-tab active" id="tab-global" onclick="renderLB('global')">🌍 Global</div>
+    <div class="lb-tab" id="tab-local" onclick="renderLB('local')">📱 My Scores</div>
+  </div>
+  <div id="lb-content"></div>
+  <div style="text-align:center;margin-top:16px;">
+    <button class="btn btn-secondary" onclick="showScreen('screen-intro')">← Back</button>
+  </div>
+</div>
 
 </div>
 
-<!-- LIFELINE ANIMATION OVERLAY -->
-<div class="lifeline-anim-overlay" id="ll-anim-overlay">
-  <div class="lifeline-anim-icon" id="ll-anim-icon">✂️</div>
-  <div class="lifeline-anim-title" id="ll-anim-title">50 / 50</div>
-  <div class="lifeline-anim-msg" id="ll-anim-msg">Processing...</div>
-  <div class="lifeline-anim-dots"><span></span><span></span><span></span></div>
+<!-- DRUM ROLL -->
+<div class="drumroll-ov" id="drumroll-ov">
+  <div class="dr-drum">🥁</div>
+  <div class="dr-qnum" id="dr-qnum">QUESTION 1</div>
+  <div class="dr-for">Playing For</div>
+  <div class="dr-prize" id="dr-prize">₹1,000</div>
+</div>
+
+<!-- LIFELINE ANIM -->
+<div class="ll-anim-ov" id="ll-anim-ov">
+  <div class="ll-anim-icon" id="ll-anim-icon">✂️</div>
+  <div class="ll-anim-title" id="ll-anim-title">50/50</div>
+  <div class="ll-anim-msg" id="ll-anim-msg">Processing...</div>
+  <div class="ll-dots"><span></span><span></span><span></span></div>
   <div class="typewriter" id="ll-typewriter"></div>
 </div>
 
-<!-- DRUM ROLL OVERLAY -->
-<div class="drumroll-overlay" id="drumroll-overlay">
-  <div class="drum-emoji">🥁</div>
-  <div class="drumroll-qnum" id="drumroll-qnum">QUESTION 1</div>
-  <div class="drumroll-for">Playing for</div>
-  <div class="drumroll-prize-amt" id="drumroll-prize-amt">₹1,000</div>
-</div>
-
-<!-- RESULT OVERLAY -->
-<div class="result-overlay" id="result-overlay">
+<!-- RESULT -->
+<div class="overlay" id="result-ov">
   <div class="result-card">
-    <div class="result-icon" id="res-icon">🏆</div>
-    <div class="result-title" id="res-title">YOU WIN!</div>
-    <div class="result-prize" id="res-prize">₹1,00,00,000</div>
-    <div class="result-msg" id="res-msg">Congratulations!</div>
-    <div class="result-btns">
+    <span class="res-icon" id="res-icon">🏆</span>
+    <div class="res-title" id="res-title">CHAMPION!</div>
+    <div class="res-prize" id="res-prize">₹1,00,00,000</div>
+    <div class="res-msg" id="res-msg">Congratulations!</div>
+    <div class="res-btns">
       <button class="btn btn-primary" onclick="playAgain()">▶ Play Again</button>
-      <button class="btn btn-secondary" onclick="showScreen('screen-leaderboard');renderLeaderboard('global');closeResult()">🏆 Leaderboard</button>
+      <button class="btn btn-secondary" onclick="showScreen('screen-leaderboard');renderLB('global');closeResult()">🏆 Board</button>
     </div>
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════
-//  ⚙️  SUPABASE CONFIG 
-// ═══════════════════════════════════════════
-const SUPABASE_URL = 'https://wvnmwclznmsbqcvuzqbt.supabase.co';       
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2bm13Y2x6bm1zYnFjdnV6cWJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzgxMzQsImV4cCI6MjA5MDQxNDEzNH0.b3F70pD-lp1Z3E4upGqqTweE6YnxpeKl_Pq3T55aGhA';  
+// ═══════════════════════════════
+//  SUPABASE CONFIG
+// ═══════════════════════════════
+const SUPABASE_URL='https://wvnmwclznmsbqcvuzqbt.supabase.co';
+const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2bm13Y2x6bm1zYnFjdnV6cWJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzgxMzQsImV4cCI6MjA5MDQxNDEzNH0.b3F70pD-lp1Z3E4upGqqTweE6YnxpeKl_Pq3T55aGhA';
 
-async function supabaseFetch(path, options={}) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-    headers: {
-      'apikey': SUPABASE_KEY,
-      'Authorization': `Bearer ${SUPABASE_KEY}`,
-      'Content-Type': 'application/json',
-      'Prefer': options.prefer || ''
-    },
-    ...options
+async function sbFetch(path,opts={}){
+  const r=await fetch(`${SUPABASE_URL}/rest/v1/${path}`,{
+    headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json','Prefer':opts.prefer||''},
+    ...opts
   });
-  if (!res.ok) throw new Error(`Supabase error: ${res.status}`);
-  return res.json().catch(()=>({}));
+  if(!r.ok) throw new Error(r.status);
+  return r.json().catch(()=>({}));
+}
+async function saveGlobal(name,score,mode){
+  if(!name||score===0||SUPABASE_URL==='YOUR_SUPABASE_URL') return;
+  try{await sbFetch('leaderboard',{method:'POST',prefer:'return=minimal',body:JSON.stringify({name,score,mode,date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})})});}
+  catch(e){console.warn('Supabase save failed:',e.message);}
+}
+async function fetchGlobal(){
+  if(SUPABASE_URL==='YOUR_SUPABASE_URL') return null;
+  try{return await sbFetch('leaderboard?select=name,score,mode,date&order=score.desc&limit=20');}
+  catch(e){return null;}
 }
 
-async function saveScoreGlobal(name, score, mode) {
-  if (!name || score === 0) return;
-  if (SUPABASE_URL === 'YOUR_SUPABASE_URL') return; // not configured yet
-  try {
-    await supabaseFetch('leaderboard', {
-      method: 'POST',
-      prefer: 'return=minimal',
-      body: JSON.stringify({
-        name,
-        score,
-        mode,
-        date: new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'})
-      })
-    });
-  } catch(e) { console.warn('Supabase save failed:', e.message); }
-}
-
-async function fetchGlobalLeaderboard() {
-  if (SUPABASE_URL === 'YOUR_SUPABASE_URL') return null;
-  try {
-    return await supabaseFetch('leaderboard?select=name,score,mode,date&order=score.desc&limit=20');
-  } catch(e) { return null; }
-}
-
-// ═══════════════════════════════════════════
-//  FULL QUESTION BANK (90 questions)
-// ═══════════════════════════════════════════
-const ALL_QUESTIONS=[
-  {id:1,question:"Which country won the first ever FIFA World Cup in 1930?",options:{A:"Brazil",B:"Argentina",C:"Uruguay",D:"Italy"},answer:"C",difficulty:"easy"},
-  {id:2,question:"How many players are there in a football team on the field?",options:{A:"9",B:"10",C:"11",D:"12"},answer:"C",difficulty:"easy"},
-  {id:3,question:"Which country has won the most FIFA World Cup titles?",options:{A:"Germany",B:"Italy",C:"Argentina",D:"Brazil"},answer:"D",difficulty:"easy"},
-  {id:4,question:"What is the nickname of the Brazilian national football team?",options:{A:"The Lions",B:"The Eagles",C:"The Selecao",D:"The Samba Kings"},answer:"C",difficulty:"easy"},
-  {id:5,question:"Which club does Lionel Messi currently play for?",options:{A:"Barcelona",B:"PSG",C:"Inter Miami",D:"Al Hilal"},answer:"C",difficulty:"easy"},
-  {id:6,question:"How long is a standard football match?",options:{A:"80 minutes",B:"90 minutes",C:"100 minutes",D:"120 minutes"},answer:"B",difficulty:"easy"},
-  {id:7,question:"Which country does Cristiano Ronaldo represent internationally?",options:{A:"Spain",B:"Brazil",C:"Portugal",D:"Italy"},answer:"C",difficulty:"easy"},
-  {id:8,question:"What colour card is shown to send a player off in football?",options:{A:"Yellow",B:"Orange",C:"Blue",D:"Red"},answer:"D",difficulty:"easy"},
-  {id:9,question:"Which country hosted the 2022 FIFA World Cup?",options:{A:"UAE",B:"Saudi Arabia",C:"Qatar",D:"Bahrain"},answer:"C",difficulty:"easy"},
-  {id:10,question:"Who won the 2022 FIFA World Cup?",options:{A:"France",B:"Brazil",C:"Argentina",D:"Germany"},answer:"C",difficulty:"easy"},
-  {id:11,question:"Which club is known as 'The Red Devils'?",options:{A:"Arsenal",B:"Manchester United",C:"Liverpool",D:"AC Milan"},answer:"B",difficulty:"easy"},
-  {id:12,question:"In which city is FC Barcelona based?",options:{A:"Madrid",B:"Valencia",C:"Seville",D:"Barcelona"},answer:"D",difficulty:"easy"},
-  {id:13,question:"Which country did Pele represent?",options:{A:"Argentina",B:"Portugal",C:"Brazil",D:"Uruguay"},answer:"C",difficulty:"easy"},
-  {id:14,question:"The FIFA World Cup is held every how many years?",options:{A:"2",B:"3",C:"4",D:"5"},answer:"C",difficulty:"easy"},
-  {id:15,question:"Which team plays their home games at Old Trafford?",options:{A:"Manchester City",B:"Liverpool",C:"Chelsea",D:"Manchester United"},answer:"D",difficulty:"easy"},
-  {id:16,question:"What is the maximum number of substitutes in a standard FIFA match?",options:{A:"3",B:"4",C:"5",D:"6"},answer:"C",difficulty:"easy"},
-  {id:17,question:"Which country won the UEFA Euro 2020 tournament?",options:{A:"France",B:"England",C:"Spain",D:"Italy"},answer:"D",difficulty:"easy"},
-  {id:18,question:"Which club is known as 'Los Blancos'?",options:{A:"Juventus",B:"Real Madrid",C:"Bayern Munich",D:"Inter Milan"},answer:"B",difficulty:"easy"},
-  {id:19,question:"Which club did Neymar join after leaving Barcelona in 2017?",options:{A:"Real Madrid",B:"Juventus",C:"PSG",D:"Chelsea"},answer:"C",difficulty:"easy"},
-  {id:20,question:"Which country is Kylian Mbappe from?",options:{A:"Belgium",B:"Senegal",C:"France",D:"Ivory Coast"},answer:"C",difficulty:"easy"},
-  {id:21,question:"What colour are the home shirts of the Brazilian national team?",options:{A:"Green",B:"White",C:"Blue",D:"Yellow"},answer:"D",difficulty:"easy"},
-  {id:22,question:"Which club is known as 'The Gunners'?",options:{A:"Arsenal",B:"Tottenham",C:"West Ham",D:"Everton"},answer:"A",difficulty:"easy"},
-  {id:23,question:"How many teams competed in the FIFA World Cup from 1998 to 2022?",options:{A:"16",B:"24",C:"32",D:"48"},answer:"C",difficulty:"easy"},
-  {id:24,question:"Which player is nicknamed 'CR7'?",options:{A:"Carlos Ronaldo",B:"Cristiano Ronaldo",C:"Cafu Ronaldinho",D:"Carlos Ramos"},answer:"B",difficulty:"easy"},
-  {id:25,question:"Which country is Erling Haaland from?",options:{A:"Sweden",B:"Denmark",C:"Norway",D:"Finland"},answer:"C",difficulty:"easy"},
-  {id:26,question:"What does VAR stand for in football?",options:{A:"Video Assist Referee",B:"Visual Action Review",C:"Video Assistant Referee",D:"Visual Aid Referee"},answer:"C",difficulty:"easy"},
-  {id:27,question:"Which English club plays at Stamford Bridge?",options:{A:"Everton",B:"Manchester City",C:"Chelsea",D:"Leicester City"},answer:"C",difficulty:"easy"},
-  {id:28,question:"Which nation won the first UEFA European Championship in 1960?",options:{A:"France",B:"West Germany",C:"Soviet Union",D:"Yugoslavia"},answer:"C",difficulty:"easy"},
-  {id:29,question:"Which club is nicknamed 'Die Bayern'?",options:{A:"Borussia Dortmund",B:"Bayer Leverkusen",C:"Schalke 04",D:"Bayern Munich"},answer:"D",difficulty:"easy"},
-  {id:30,question:"Which player holds the record for most appearances in the FIFA World Cup?",options:{A:"Pele",B:"Lothar Matthaus",C:"Diego Maradona",D:"Cafu"},answer:"B",difficulty:"easy"},
-  {id:31,question:"Which stadium is the home ground of FC Barcelona?",options:{A:"Santiago Bernabeu",B:"Nou Camp",C:"Wanda Metropolitano",D:"Mestalla"},answer:"B",difficulty:"medium"},
-  {id:32,question:"Who is the all-time top scorer in FIFA World Cup history?",options:{A:"Ronaldo (Brazil)",B:"Just Fontaine",C:"Miroslav Klose",D:"Gerd Muller"},answer:"C",difficulty:"medium"},
-  {id:33,question:"Which club has won the most UEFA Champions League titles?",options:{A:"FC Barcelona",B:"Bayern Munich",C:"AC Milan",D:"Real Madrid"},answer:"D",difficulty:"medium"},
-  {id:34,question:"In which year was the Premier League founded?",options:{A:"1988",B:"1990",C:"1992",D:"1995"},answer:"C",difficulty:"medium"},
-  {id:35,question:"Which player is known as 'El Fenomeno'?",options:{A:"Ronaldinho",B:"Ronaldo Nazario",C:"Cristiano Ronaldo",D:"Roberto Carlos"},answer:"B",difficulty:"medium"},
-  {id:36,question:"Which club did Zinedine Zidane play for before joining Real Madrid?",options:{A:"AC Milan",B:"Monaco",C:"Juventus",D:"Marseille"},answer:"C",difficulty:"medium"},
-  {id:37,question:"How many times has Brazil won the FIFA World Cup?",options:{A:"4",B:"5",C:"6",D:"3"},answer:"B",difficulty:"medium"},
-  {id:38,question:"Which club won the first European Cup in 1956?",options:{A:"AC Milan",B:"Barcelona",C:"Real Madrid",D:"Benfica"},answer:"C",difficulty:"medium"},
-  {id:39,question:"Who won the 2018 FIFA World Cup Golden Boot?",options:{A:"Cristiano Ronaldo",B:"Antoine Griezmann",C:"Harry Kane",D:"Kylian Mbappe"},answer:"C",difficulty:"medium"},
-  {id:40,question:"Which country has won the most UEFA European Championship titles?",options:{A:"Germany",B:"France",C:"Spain",D:"Italy"},answer:"C",difficulty:"medium"},
-  {id:41,question:"Which club is known as 'The Old Lady'?",options:{A:"Inter Milan",B:"AC Milan",C:"Roma",D:"Juventus"},answer:"D",difficulty:"medium"},
-  {id:42,question:"What is the name of Liverpool's home ground?",options:{A:"Goodison Park",B:"Anfield",C:"Elland Road",D:"St James' Park"},answer:"B",difficulty:"medium"},
-  {id:43,question:"Which player won the Golden Ball at the 2014 World Cup?",options:{A:"Thomas Muller",B:"James Rodriguez",C:"Lionel Messi",D:"Bastian Schweinsteiger"},answer:"C",difficulty:"medium"},
-  {id:44,question:"Which country beat Germany 7-1 in the 2014 World Cup semi-final?",options:{A:"Argentina",B:"Brazil",C:"France",D:"Netherlands"},answer:"B",difficulty:"medium"},
-  {id:45,question:"Who is the all-time top scorer in the English Premier League?",options:{A:"Frank Lampard",B:"Thierry Henry",C:"Wayne Rooney",D:"Andrew Cole"},answer:"C",difficulty:"medium"},
-  {id:46,question:"Which club did Robert Lewandowski leave Bayern Munich to join in 2022?",options:{A:"PSG",B:"Barcelona",C:"Chelsea",D:"Juventus"},answer:"B",difficulty:"medium"},
-  {id:47,question:"Which Spanish club is nicknamed 'Los Colchoneros'?",options:{A:"Sevilla",B:"Valencia",C:"Atletico Madrid",D:"Real Betis"},answer:"C",difficulty:"medium"},
-  {id:48,question:"How many goals did Miroslav Klose score in World Cup appearances?",options:{A:"14",B:"15",C:"16",D:"17"},answer:"C",difficulty:"medium"},
-  {id:49,question:"Which player scored the winning penalty for Chelsea in the 2012 Champions League final?",options:{A:"Frank Lampard",B:"Didier Drogba",C:"Ashley Cole",D:"Juan Mata"},answer:"C",difficulty:"medium"},
-  {id:50,question:"Which club has won the most English top-flight titles?",options:{A:"Arsenal",B:"Liverpool",C:"Manchester United",D:"Chelsea"},answer:"C",difficulty:"medium"},
-  {id:51,question:"Who scored the fastest hat-trick in Premier League history (2 min 56 sec)?",options:{A:"Robbie Fowler",B:"Michael Owen",C:"Sadio Mane",D:"Alan Shearer"},answer:"C",difficulty:"medium"},
-  {id:52,question:"Which country did Thierry Henry play for internationally?",options:{A:"Ivory Coast",B:"Senegal",C:"Belgium",D:"France"},answer:"D",difficulty:"medium"},
-  {id:53,question:"Who won the UEFA Champions League in 2019?",options:{A:"Manchester City",B:"Ajax",C:"Liverpool",D:"Barcelona"},answer:"C",difficulty:"medium"},
-  {id:54,question:"In what year did the Champions League rebrand from the European Cup?",options:{A:"1990",B:"1991",C:"1992",D:"1993"},answer:"C",difficulty:"medium"},
-  {id:55,question:"Which club knocked Barcelona out of the 2021-22 Champions League group stage?",options:{A:"Bayern Munich",B:"Benfica",C:"Dynamo Kyiv",D:"Juventus"},answer:"A",difficulty:"medium"},
-  {id:56,question:"Which nation did Ronaldinho play for?",options:{A:"Portugal",B:"Argentina",C:"Brazil",D:"Spain"},answer:"C",difficulty:"medium"},
-  {id:57,question:"Which African nation became the first to reach a World Cup quarter-final in 1990?",options:{A:"Nigeria",B:"Senegal",C:"Ghana",D:"Cameroon"},answer:"D",difficulty:"medium"},
-  {id:58,question:"Which country won the first Africa Cup of Nations in 1957?",options:{A:"Nigeria",B:"Egypt",C:"Ghana",D:"Sudan"},answer:"B",difficulty:"medium"},
-  {id:59,question:"Which club did Robert Lewandowski play for before Bayern Munich?",options:{A:"RB Leipzig",B:"Wolfsburg",C:"Borussia Dortmund",D:"Schalke"},answer:"C",difficulty:"medium"},
-  {id:60,question:"Which city hosts the El Clasico derby matches?",options:{A:"Madrid only",B:"Barcelona only",C:"Both Madrid and Barcelona",D:"Neutral venue"},answer:"C",difficulty:"medium"},
-  {id:61,question:"Who scored the 'Hand of God' goal in the 1986 World Cup?",options:{A:"Pele",B:"Zinedine Zidane",C:"Diego Maradona",D:"Michel Platini"},answer:"C",difficulty:"hard"},
-  {id:62,question:"Which footballer has won the most Ballon d'Or awards?",options:{A:"Cristiano Ronaldo",B:"Ronaldinho",C:"Zinedine Zidane",D:"Lionel Messi"},answer:"D",difficulty:"hard"},
-  {id:63,question:"Which club did Cristiano Ronaldo start his professional career at?",options:{A:"Manchester United",B:"Sporting CP",C:"Real Madrid",D:"Juventus"},answer:"B",difficulty:"hard"},
-  {id:64,question:"Who was the first to win the FIFA World Cup as both player and coach?",options:{A:"Johan Cruyff",B:"Didier Deschamps",C:"Franz Beckenbauer",D:"Pele"},answer:"C",difficulty:"hard"},
-  {id:65,question:"Who scored the most goals in a single Champions League season — 17 goals in 2013-14?",options:{A:"Lionel Messi",B:"Karim Benzema",C:"Cristiano Ronaldo",D:"Luis Suarez"},answer:"C",difficulty:"hard"},
-  {id:66,question:"Who scored the winner for Manchester United in the 1999 Champions League final?",options:{A:"Teddy Sheringham",B:"Ole Gunnar Solskjaer",C:"Peter Schmeichel",D:"Andy Cole"},answer:"B",difficulty:"hard"},
-  {id:67,question:"Which player holds the record for most international goals in men's football?",options:{A:"Pele",B:"Ronaldo (Brazil)",C:"Cristiano Ronaldo",D:"Messi"},answer:"C",difficulty:"hard"},
-  {id:68,question:"Just Fontaine scored how many goals in the 1958 World Cup?",options:{A:"11",B:"12",C:"13",D:"14"},answer:"C",difficulty:"hard"},
-  {id:69,question:"Which club won the treble (league, FA Cup, Champions League) in 1998-99?",options:{A:"Barcelona",B:"Arsenal",C:"Manchester United",D:"Chelsea"},answer:"C",difficulty:"hard"},
-  {id:70,question:"Who was the first player to score 100 Champions League goals?",options:{A:"Lionel Messi",B:"Raul",C:"Cristiano Ronaldo",D:"Karim Benzema"},answer:"C",difficulty:"hard"},
-  {id:71,question:"Who scored the fastest goal in World Cup history (10.8 seconds) in 2002?",options:{A:"Ronaldo",B:"Rivaldo",C:"Hakan Sukur",D:"Emile Heskey"},answer:"C",difficulty:"hard"},
-  {id:72,question:"Who was the first player to win the Champions League with three different clubs?",options:{A:"Clarence Seedorf",B:"Roberto Carlos",C:"Claude Makelele",D:"Didier Deschamps"},answer:"A",difficulty:"hard"},
-  {id:73,question:"Which goalkeeper holds the record for most clean sheets in Premier League history?",options:{A:"Peter Schmeichel",B:"Petr Cech",C:"David James",D:"Edwin van der Sar"},answer:"B",difficulty:"hard"},
-  {id:74,question:"Who scored a hat-trick in the 2018 World Cup group stage against Portugal?",options:{A:"Antoine Griezmann",B:"Harry Kane",C:"Cristiano Ronaldo",D:"Romelu Lukaku"},answer:"C",difficulty:"hard"},
-  {id:75,question:"Which player is nicknamed 'The Divine Ponytail' (Il Divin Codino)?",options:{A:"Francesco Totti",B:"Roberto Baggio",C:"Alessandro Del Piero",D:"Gianfranco Zola"},answer:"B",difficulty:"hard"},
-  {id:76,question:"Who scored the famous 'Scorpion Kick' save for Colombia against England in 1995?",options:{A:"Carlos Valderrama",B:"Faustino Asprilla",C:"Rene Higuita",D:"Freddy Rincon"},answer:"C",difficulty:"hard"},
-  {id:77,question:"Which player has won the most FA Cup winner's medals (7)?",options:{A:"Frank Lampard",B:"Ryan Giggs",C:"Ashley Cole",D:"John Terry"},answer:"C",difficulty:"hard"},
-  {id:78,question:"Who holds the record for most goals in a single La Liga season — 50 goals in 2011-12?",options:{A:"Cristiano Ronaldo",B:"Lionel Messi",C:"Luis Suarez",D:"Karim Benzema"},answer:"B",difficulty:"hard"},
-  {id:79,question:"Which Dutch player famously refused to play for Real Madrid out of principle?",options:{A:"Dennis Bergkamp",B:"Johan Cruyff",C:"Marco van Basten",D:"Ruud Gullit"},answer:"B",difficulty:"hard"},
-  {id:80,question:"Who scored the winning goal in extra time in the 2014 World Cup final?",options:{A:"Thomas Muller",B:"Toni Kroos",C:"Mario Gotze",D:"Miroslav Klose"},answer:"C",difficulty:"hard"},
-  {id:81,question:"Which club was legendary goalkeeper Lev Yashin associated with?",options:{A:"Spartak Moscow",B:"Lokomotiv Moscow",C:"Dynamo Moscow",D:"CSKA Moscow"},answer:"C",difficulty:"hard"},
-  {id:82,question:"In what year did FIFA introduce the offside rule change that revolutionised tactics?",options:{A:"1920",B:"1925",C:"1930",D:"1935"},answer:"B",difficulty:"hard"},
-  {id:83,question:"Who scored the first ever Premier League hat-trick?",options:{A:"Alan Shearer",B:"Eric Cantona",C:"Mick Quinn",D:"Les Ferdinand"},answer:"A",difficulty:"hard"},
-  {id:84,question:"Which player holds the record for most assists in UEFA Champions League history?",options:{A:"Lionel Messi",B:"Cristiano Ronaldo",C:"Ryan Giggs",D:"Cesc Fabregas"},answer:"A",difficulty:"hard"},
-  {id:85,question:"In 1970 Brazil won the Jules Rimet Trophy permanently after how many World Cup wins?",options:{A:"2",B:"3",C:"4",D:"5"},answer:"B",difficulty:"hard"},
-  {id:86,question:"Which country did Andres Iniesta help win both the 2010 World Cup and Euro 2008 and 2012?",options:{A:"Portugal",B:"Argentina",C:"Spain",D:"France"},answer:"C",difficulty:"hard"},
-  {id:87,question:"Who is the only player to win the FIFA World Cup, Champions League, and Olympic gold?",options:{A:"Ronaldo (Brazil)",B:"Pele",C:"Cafu",D:"Roberto Carlos"},answer:"A",difficulty:"hard"},
-  {id:88,question:"Which manager won the Champions League with both Juventus and AC Milan?",options:{A:"Jose Mourinho",B:"Carlo Ancelotti",C:"Fabio Capello",D:"Marcello Lippi"},answer:"B",difficulty:"hard"},
-  {id:89,question:"Who holds the record for most goals in Bundesliga history?",options:{A:"Gerd Muller",B:"Robert Lewandowski",C:"Jurgen Klinsmann",D:"Rudi Voller"},answer:"B",difficulty:"hard"},
-  {id:90,question:"Which player scored in every round of the 1998 World Cup for France including the final?",options:{A:"David Trezeguet",B:"Thierry Henry",C:"Zinedine Zidane",D:"Youri Djorkaeff"},answer:"C",difficulty:"hard"},
+// ═══════════════════════════════
+//  QUESTION BANK (90 questions)
+// ═══════════════════════════════
+const QB=[
+  {id:1,q:"Which country won the first ever FIFA World Cup in 1930?",o:{A:"Brazil",B:"Argentina",C:"Uruguay",D:"Italy"},a:"C",d:"easy"},
+  {id:2,q:"How many players are there in a football team on the field?",o:{A:"9",B:"10",C:"11",D:"12"},a:"C",d:"easy"},
+  {id:3,q:"Which country has won the most FIFA World Cup titles?",o:{A:"Germany",B:"Italy",C:"Argentina",D:"Brazil"},a:"D",d:"easy"},
+  {id:4,q:"What is the nickname of the Brazilian national football team?",o:{A:"The Lions",B:"The Eagles",C:"The Selecao",D:"The Samba Kings"},a:"C",d:"easy"},
+  {id:5,q:"Which club does Lionel Messi currently play for?",o:{A:"Barcelona",B:"PSG",C:"Inter Miami",D:"Al Hilal"},a:"C",d:"easy"},
+  {id:6,q:"How long is a standard football match?",o:{A:"80 minutes",B:"90 minutes",C:"100 minutes",D:"120 minutes"},a:"B",d:"easy"},
+  {id:7,q:"Which country does Cristiano Ronaldo represent internationally?",o:{A:"Spain",B:"Brazil",C:"Portugal",D:"Italy"},a:"C",d:"easy"},
+  {id:8,q:"What colour card is shown to send a player off in football?",o:{A:"Yellow",B:"Orange",C:"Blue",D:"Red"},a:"D",d:"easy"},
+  {id:9,q:"Which country hosted the 2022 FIFA World Cup?",o:{A:"UAE",B:"Saudi Arabia",C:"Qatar",D:"Bahrain"},a:"C",d:"easy"},
+  {id:10,q:"Who won the 2022 FIFA World Cup?",o:{A:"France",B:"Brazil",C:"Argentina",D:"Germany"},a:"C",d:"easy"},
+  {id:11,q:"Which club is known as 'The Red Devils'?",o:{A:"Arsenal",B:"Manchester United",C:"Liverpool",D:"AC Milan"},a:"B",d:"easy"},
+  {id:12,q:"In which city is FC Barcelona based?",o:{A:"Madrid",B:"Valencia",C:"Seville",D:"Barcelona"},a:"D",d:"easy"},
+  {id:13,q:"Which country did Pele represent?",o:{A:"Argentina",B:"Portugal",C:"Brazil",D:"Uruguay"},a:"C",d:"easy"},
+  {id:14,q:"The FIFA World Cup is held every how many years?",o:{A:"2",B:"3",C:"4",D:"5"},a:"C",d:"easy"},
+  {id:15,q:"Which team plays their home games at Old Trafford?",o:{A:"Manchester City",B:"Liverpool",C:"Chelsea",D:"Manchester United"},a:"D",d:"easy"},
+  {id:16,q:"What is the maximum number of substitutes in a standard FIFA match?",o:{A:"3",B:"4",C:"5",D:"6"},a:"C",d:"easy"},
+  {id:17,q:"Which country won the UEFA Euro 2020 tournament?",o:{A:"France",B:"England",C:"Spain",D:"Italy"},a:"D",d:"easy"},
+  {id:18,q:"Which club is known as 'Los Blancos'?",o:{A:"Juventus",B:"Real Madrid",C:"Bayern Munich",D:"Inter Milan"},a:"B",d:"easy"},
+  {id:19,q:"Which club did Neymar join after leaving Barcelona in 2017?",o:{A:"Real Madrid",B:"Juventus",C:"PSG",D:"Chelsea"},a:"C",d:"easy"},
+  {id:20,q:"Which country is Kylian Mbappe from?",o:{A:"Belgium",B:"Senegal",C:"France",D:"Ivory Coast"},a:"C",d:"easy"},
+  {id:21,q:"What colour are the home shirts of the Brazilian national team?",o:{A:"Green",B:"White",C:"Blue",D:"Yellow"},a:"D",d:"easy"},
+  {id:22,q:"Which club is known as 'The Gunners'?",o:{A:"Arsenal",B:"Tottenham",C:"West Ham",D:"Everton"},a:"A",d:"easy"},
+  {id:23,q:"How many teams competed in the FIFA World Cup from 1998 to 2022?",o:{A:"16",B:"24",C:"32",D:"48"},a:"C",d:"easy"},
+  {id:24,q:"Which player is nicknamed 'CR7'?",o:{A:"Carlos Ronaldo",B:"Cristiano Ronaldo",C:"Cafu Ronaldinho",D:"Carlos Ramos"},a:"B",d:"easy"},
+  {id:25,q:"Which country is Erling Haaland from?",o:{A:"Sweden",B:"Denmark",C:"Norway",D:"Finland"},a:"C",d:"easy"},
+  {id:26,q:"What does VAR stand for in football?",o:{A:"Video Assist Referee",B:"Visual Action Review",C:"Video Assistant Referee",D:"Visual Aid Referee"},a:"C",d:"easy"},
+  {id:27,q:"Which English club plays at Stamford Bridge?",o:{A:"Everton",B:"Manchester City",C:"Chelsea",D:"Leicester City"},a:"C",d:"easy"},
+  {id:28,q:"Which nation won the first UEFA European Championship in 1960?",o:{A:"France",B:"West Germany",C:"Soviet Union",D:"Yugoslavia"},a:"C",d:"easy"},
+  {id:29,q:"Which club is nicknamed 'Die Bayern'?",o:{A:"Borussia Dortmund",B:"Bayer Leverkusen",C:"Schalke 04",D:"Bayern Munich"},a:"D",d:"easy"},
+  {id:30,q:"Which player holds the record for most appearances in the FIFA World Cup?",o:{A:"Pele",B:"Lothar Matthaus",C:"Diego Maradona",D:"Cafu"},a:"B",d:"easy"},
+  {id:31,q:"Which stadium is the home ground of FC Barcelona?",o:{A:"Santiago Bernabeu",B:"Nou Camp",C:"Wanda Metropolitano",D:"Mestalla"},a:"B",d:"medium"},
+  {id:32,q:"Who is the all-time top scorer in FIFA World Cup history?",o:{A:"Ronaldo (Brazil)",B:"Just Fontaine",C:"Miroslav Klose",D:"Gerd Muller"},a:"C",d:"medium"},
+  {id:33,q:"Which club has won the most UEFA Champions League titles?",o:{A:"FC Barcelona",B:"Bayern Munich",C:"AC Milan",D:"Real Madrid"},a:"D",d:"medium"},
+  {id:34,q:"In which year was the Premier League founded?",o:{A:"1988",B:"1990",C:"1992",D:"1995"},a:"C",d:"medium"},
+  {id:35,q:"Which player is known as 'El Fenomeno'?",o:{A:"Ronaldinho",B:"Ronaldo Nazario",C:"Cristiano Ronaldo",D:"Roberto Carlos"},a:"B",d:"medium"},
+  {id:36,q:"Which club did Zinedine Zidane play for before joining Real Madrid?",o:{A:"AC Milan",B:"Monaco",C:"Juventus",D:"Marseille"},a:"C",d:"medium"},
+  {id:37,q:"How many times has Brazil won the FIFA World Cup?",o:{A:"4",B:"5",C:"6",D:"3"},a:"B",d:"medium"},
+  {id:38,q:"Which club won the first European Cup in 1956?",o:{A:"AC Milan",B:"Barcelona",C:"Real Madrid",D:"Benfica"},a:"C",d:"medium"},
+  {id:39,q:"Who won the 2018 FIFA World Cup Golden Boot?",o:{A:"Cristiano Ronaldo",B:"Antoine Griezmann",C:"Harry Kane",D:"Kylian Mbappe"},a:"C",d:"medium"},
+  {id:40,q:"Which country has won the most UEFA European Championship titles?",o:{A:"Germany",B:"France",C:"Spain",D:"Italy"},a:"C",d:"medium"},
+  {id:41,q:"Which club is known as 'The Old Lady'?",o:{A:"Inter Milan",B:"AC Milan",C:"Roma",D:"Juventus"},a:"D",d:"medium"},
+  {id:42,q:"What is the name of Liverpool's home ground?",o:{A:"Goodison Park",B:"Anfield",C:"Elland Road",D:"St James' Park"},a:"B",d:"medium"},
+  {id:43,q:"Which player won the Golden Ball at the 2014 World Cup?",o:{A:"Thomas Muller",B:"James Rodriguez",C:"Lionel Messi",D:"Bastian Schweinsteiger"},a:"C",d:"medium"},
+  {id:44,q:"Which country beat Germany 7-1 in the 2014 World Cup semi-final?",o:{A:"Argentina",B:"Brazil",C:"France",D:"Netherlands"},a:"B",d:"medium"},
+  {id:45,q:"Who is the all-time top scorer in the English Premier League?",o:{A:"Frank Lampard",B:"Thierry Henry",C:"Wayne Rooney",D:"Andrew Cole"},a:"C",d:"medium"},
+  {id:46,q:"Which club did Robert Lewandowski leave Bayern Munich to join in 2022?",o:{A:"PSG",B:"Barcelona",C:"Chelsea",D:"Juventus"},a:"B",d:"medium"},
+  {id:47,q:"Which Spanish club is nicknamed 'Los Colchoneros'?",o:{A:"Sevilla",B:"Valencia",C:"Atletico Madrid",D:"Real Betis"},a:"C",d:"medium"},
+  {id:48,q:"How many goals did Miroslav Klose score in World Cup appearances?",o:{A:"14",B:"15",C:"16",D:"17"},a:"C",d:"medium"},
+  {id:49,q:"Which player scored the winning penalty for Chelsea in the 2012 Champions League final?",o:{A:"Frank Lampard",B:"Didier Drogba",C:"Ashley Cole",D:"Juan Mata"},a:"C",d:"medium"},
+  {id:50,q:"Which club has won the most English top-flight titles?",o:{A:"Arsenal",B:"Liverpool",C:"Manchester United",D:"Chelsea"},a:"C",d:"medium"},
+  {id:51,q:"Who scored the fastest hat-trick in Premier League history (2 min 56 sec)?",o:{A:"Robbie Fowler",B:"Michael Owen",C:"Sadio Mane",D:"Alan Shearer"},a:"C",d:"medium"},
+  {id:52,q:"Which country did Thierry Henry play for internationally?",o:{A:"Ivory Coast",B:"Senegal",C:"Belgium",D:"France"},a:"D",d:"medium"},
+  {id:53,q:"Who won the UEFA Champions League in 2019?",o:{A:"Manchester City",B:"Ajax",C:"Liverpool",D:"Barcelona"},a:"C",d:"medium"},
+  {id:54,q:"In what year did the Champions League rebrand from the European Cup?",o:{A:"1990",B:"1991",C:"1992",D:"1993"},a:"C",d:"medium"},
+  {id:55,q:"Which club knocked Barcelona out of the 2021-22 Champions League group stage?",o:{A:"Bayern Munich",B:"Benfica",C:"Dynamo Kyiv",D:"Juventus"},a:"A",d:"medium"},
+  {id:56,q:"Which nation did Ronaldinho play for?",o:{A:"Portugal",B:"Argentina",C:"Brazil",D:"Spain"},a:"C",d:"medium"},
+  {id:57,q:"Which African nation became the first to reach a World Cup quarter-final in 1990?",o:{A:"Nigeria",B:"Senegal",C:"Ghana",D:"Cameroon"},a:"D",d:"medium"},
+  {id:58,q:"Which country won the first Africa Cup of Nations in 1957?",o:{A:"Nigeria",B:"Egypt",C:"Ghana",D:"Sudan"},a:"B",d:"medium"},
+  {id:59,q:"Which club did Robert Lewandowski play for before Bayern Munich?",o:{A:"RB Leipzig",B:"Wolfsburg",C:"Borussia Dortmund",D:"Schalke"},a:"C",d:"medium"},
+  {id:60,q:"Which city hosts the El Clasico derby matches?",o:{A:"Madrid only",B:"Barcelona only",C:"Both Madrid and Barcelona",D:"Neutral venue"},a:"C",d:"medium"},
+  {id:61,q:"Who scored the 'Hand of God' goal in the 1986 World Cup?",o:{A:"Pele",B:"Zinedine Zidane",C:"Diego Maradona",D:"Michel Platini"},a:"C",d:"hard"},
+  {id:62,q:"Which footballer has won the most Ballon d'Or awards?",o:{A:"Cristiano Ronaldo",B:"Ronaldinho",C:"Zinedine Zidane",D:"Lionel Messi"},a:"D",d:"hard"},
+  {id:63,q:"Which club did Cristiano Ronaldo start his professional career at?",o:{A:"Manchester United",B:"Sporting CP",C:"Real Madrid",D:"Juventus"},a:"B",d:"hard"},
+  {id:64,q:"Who was the first to win the FIFA World Cup as both player and coach?",o:{A:"Johan Cruyff",B:"Didier Deschamps",C:"Franz Beckenbauer",D:"Pele"},a:"C",d:"hard"},
+  {id:65,q:"Who scored the most goals in a single Champions League season — 17 in 2013-14?",o:{A:"Lionel Messi",B:"Karim Benzema",C:"Cristiano Ronaldo",D:"Luis Suarez"},a:"C",d:"hard"},
+  {id:66,q:"Who scored the winner for Manchester United in the 1999 Champions League final?",o:{A:"Teddy Sheringham",B:"Ole Gunnar Solskjaer",C:"Peter Schmeichel",D:"Andy Cole"},a:"B",d:"hard"},
+  {id:67,q:"Which player holds the record for most international goals in men's football?",o:{A:"Pele",B:"Ronaldo (Brazil)",C:"Cristiano Ronaldo",D:"Messi"},a:"C",d:"hard"},
+  {id:68,q:"Just Fontaine scored how many goals in the 1958 World Cup?",o:{A:"11",B:"12",C:"13",D:"14"},a:"C",d:"hard"},
+  {id:69,q:"Which club won the treble (league, FA Cup, Champions League) in 1998-99?",o:{A:"Barcelona",B:"Arsenal",C:"Manchester United",D:"Chelsea"},a:"C",d:"hard"},
+  {id:70,q:"Who was the first player to score 100 Champions League goals?",o:{A:"Lionel Messi",B:"Raul",C:"Cristiano Ronaldo",D:"Karim Benzema"},a:"C",d:"hard"},
+  {id:71,q:"Who scored the fastest World Cup goal (10.8 seconds) in 2002?",o:{A:"Ronaldo",B:"Rivaldo",C:"Hakan Sukur",D:"Emile Heskey"},a:"C",d:"hard"},
+  {id:72,q:"Who was the first player to win the Champions League with three different clubs?",o:{A:"Clarence Seedorf",B:"Roberto Carlos",C:"Claude Makelele",D:"Didier Deschamps"},a:"A",d:"hard"},
+  {id:73,q:"Which goalkeeper holds the record for most clean sheets in Premier League history?",o:{A:"Peter Schmeichel",B:"Petr Cech",C:"David James",D:"Edwin van der Sar"},a:"B",d:"hard"},
+  {id:74,q:"Who scored a hat-trick in the 2018 World Cup group stage against Portugal?",o:{A:"Antoine Griezmann",B:"Harry Kane",C:"Cristiano Ronaldo",D:"Romelu Lukaku"},a:"C",d:"hard"},
+  {id:75,q:"Which player is nicknamed 'The Divine Ponytail' (Il Divin Codino)?",o:{A:"Francesco Totti",B:"Roberto Baggio",C:"Alessandro Del Piero",D:"Gianfranco Zola"},a:"B",d:"hard"},
+  {id:76,q:"Who scored the famous 'Scorpion Kick' save for Colombia against England in 1995?",o:{A:"Carlos Valderrama",B:"Faustino Asprilla",C:"Rene Higuita",D:"Freddy Rincon"},a:"C",d:"hard"},
+  {id:77,q:"Which player has won the most FA Cup winner's medals (7)?",o:{A:"Frank Lampard",B:"Ryan Giggs",C:"Ashley Cole",D:"John Terry"},a:"C",d:"hard"},
+  {id:78,q:"Who holds the record for most goals in a single La Liga season — 50 in 2011-12?",o:{A:"Cristiano Ronaldo",B:"Lionel Messi",C:"Luis Suarez",D:"Karim Benzema"},a:"B",d:"hard"},
+  {id:79,q:"Which Dutch player famously refused to play for Real Madrid out of principle?",o:{A:"Dennis Bergkamp",B:"Johan Cruyff",C:"Marco van Basten",D:"Ruud Gullit"},a:"B",d:"hard"},
+  {id:80,q:"Who scored the winning goal in extra time in the 2014 World Cup final?",o:{A:"Thomas Muller",B:"Toni Kroos",C:"Mario Gotze",D:"Miroslav Klose"},a:"C",d:"hard"},
+  {id:81,q:"Which club was legendary goalkeeper Lev Yashin associated with?",o:{A:"Spartak Moscow",B:"Lokomotiv Moscow",C:"Dynamo Moscow",D:"CSKA Moscow"},a:"C",d:"hard"},
+  {id:82,q:"In what year did FIFA introduce the offside rule change that revolutionised tactics?",o:{A:"1920",B:"1925",C:"1930",D:"1935"},a:"B",d:"hard"},
+  {id:83,q:"Who scored the first ever Premier League hat-trick?",o:{A:"Alan Shearer",B:"Eric Cantona",C:"Mick Quinn",D:"Les Ferdinand"},a:"A",d:"hard"},
+  {id:84,q:"Which player holds the record for most assists in UEFA Champions League history?",o:{A:"Lionel Messi",B:"Cristiano Ronaldo",C:"Ryan Giggs",D:"Cesc Fabregas"},a:"A",d:"hard"},
+  {id:85,q:"In 1970 Brazil won the Jules Rimet Trophy permanently after how many World Cup wins?",o:{A:"2",B:"3",C:"4",D:"5"},a:"B",d:"hard"},
+  {id:86,q:"Which country did Andres Iniesta help win the 2010 World Cup and Euro 2008 and 2012?",o:{A:"Portugal",B:"Argentina",C:"Spain",D:"France"},a:"C",d:"hard"},
+  {id:87,q:"Who is the only player to win the FIFA World Cup, Champions League, and Olympic gold?",o:{A:"Ronaldo (Brazil)",B:"Pele",C:"Cafu",D:"Roberto Carlos"},a:"A",d:"hard"},
+  {id:88,q:"Which manager won the Champions League with both Juventus and AC Milan?",o:{A:"Jose Mourinho",B:"Carlo Ancelotti",C:"Fabio Capello",D:"Marcello Lippi"},a:"B",d:"hard"},
+  {id:89,q:"Who holds the record for most goals in Bundesliga history?",o:{A:"Gerd Muller",B:"Robert Lewandowski",C:"Jurgen Klinsmann",D:"Rudi Voller"},a:"B",d:"hard"},
+  {id:90,q:"Which player scored in every round of the 1998 World Cup for France including the final?",o:{A:"David Trezeguet",B:"Thierry Henry",C:"Zinedine Zidane",D:"Youri Djorkaeff"},a:"C",d:"hard"},
 ];
 
-const PRIZE_LADDER=[1000,2000,3000,5000,10000,20000,40000,80000,160000,320000,640000,1250000,2500000,5000000,10000000];
-const SAFE_HAVENS_JOURNEY=[4,9];
-const TIMER_SECONDS=30;
+const PRIZES=[1000,2000,3000,5000,10000,20000,40000,80000,160000,320000,640000,1250000,2500000,5000000,10000000];
+const SAFE_IDX=[4,9];
+const TIMER_SEC=30;
 
-function pickRandom(arr,n){
-  const c=[...arr];
-  for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}
-  return c.slice(0,n);
-}
-
-function buildGameQuestions(mode){
+function rnd(arr,n){const c=[...arr];for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c.slice(0,n);}
+function buildQs(mode){
   let picked;
   if(mode==='journey'){
     picked=[
-      ...pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='easy'),5),
-      ...pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='medium'),6),
-      ...pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='hard'),4)
+      ...rnd(QB.filter(q=>q.d==='easy'),5),
+      ...rnd(QB.filter(q=>q.d==='medium'),6),
+      ...rnd(QB.filter(q=>q.d==='hard'),4)
     ];
   } else {
-    const pool=ALL_QUESTIONS.filter(q=>q.difficulty===mode);
-    picked=pickRandom(pool,Math.min({easy:5,medium:6,hard:4}[mode]||5,pool.length));
+    const pool=QB.filter(q=>q.d===mode);
+    picked=rnd(pool,Math.min({easy:5,medium:6,hard:4}[mode]||5,pool.length));
   }
-  picked.forEach((q,i)=>{ q.prize=PRIZE_LADDER[i]||PRIZE_LADDER[PRIZE_LADDER.length-1]; });
+  picked.forEach((q,i)=>{q.prize=PRIZES[i]||PRIZES[PRIZES.length-1];});
   return picked;
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  AUDIO
-// ═══════════════════════════════════════════
-let audioCtx=null;
-function getCtx(){
-  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  if(audioCtx.state==='suspended') audioCtx.resume();
-  return audioCtx;
+// ═══════════════════════════════
+let actx=null;
+function gctx(){
+  if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
+  if(actx.state==='suspended') actx.resume();
+  return actx;
 }
-function playDrumRoll(duration=1.8){
-  const ctx=getCtx(),beats=Math.floor(duration*14);
+function drumRoll(dur=1.8){
+  const c=gctx(),beats=Math.floor(dur*14);
   for(let i=0;i<beats;i++){
-    const t=ctx.currentTime+(i*(duration/beats));
-    const sz=Math.floor(ctx.sampleRate*0.035);
-    const buf=ctx.createBuffer(1,sz,ctx.sampleRate);
-    const d=buf.getChannelData(0);
+    const t=c.currentTime+i*(dur/beats);
+    const sz=Math.floor(c.sampleRate*0.035);
+    const buf=c.createBuffer(1,sz,c.sampleRate);const d=buf.getChannelData(0);
     for(let j=0;j<sz;j++) d[j]=(Math.random()*2-1);
-    const src=ctx.createBufferSource();src.buffer=buf;
-    const gain=ctx.createGain();
-    gain.gain.setValueAtTime(0.15*(1+(i/beats)*2),t);
-    gain.gain.exponentialRampToValueAtTime(0.001,t+0.035);
-    const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=700+i*55;f.Q.value=0.9;
-    src.connect(f);f.connect(gain);gain.connect(ctx.destination);src.start(t);src.stop(t+0.04);
+    const src=c.createBufferSource();src.buffer=buf;
+    const g=c.createGain();g.gain.setValueAtTime(0.15*(1+(i/beats)*2),t);g.gain.exponentialRampToValueAtTime(0.001,t+0.035);
+    const f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=700+i*55;f.Q.value=0.9;
+    src.connect(f);f.connect(g);g.connect(c.destination);src.start(t);src.stop(t+0.04);
   }
-  const ct=ctx.currentTime+duration-0.05,csz=Math.floor(ctx.sampleRate*0.2);
-  const cbuf=ctx.createBuffer(1,csz,ctx.sampleRate);const cd=cbuf.getChannelData(0);
+  const ct=c.currentTime+dur-0.05,csz=Math.floor(c.sampleRate*0.2);
+  const cb=c.createBuffer(1,csz,c.sampleRate);const cd=cb.getChannelData(0);
   for(let j=0;j<csz;j++) cd[j]=(Math.random()*2-1);
-  const csrc=ctx.createBufferSource();csrc.buffer=cbuf;
-  const cg=ctx.createGain();cg.gain.setValueAtTime(0.5,ct);cg.gain.exponentialRampToValueAtTime(0.001,ct+0.2);
-  const cf=ctx.createBiquadFilter();cf.type='highpass';cf.frequency.value=3000;
-  csrc.connect(cf);cf.connect(cg);cg.connect(ctx.destination);csrc.start(ct);csrc.stop(ct+0.25);
+  const cs=c.createBufferSource();cs.buffer=cb;
+  const cg=c.createGain();cg.gain.setValueAtTime(0.5,ct);cg.gain.exponentialRampToValueAtTime(0.001,ct+0.2);
+  const cf=c.createBiquadFilter();cf.type='highpass';cf.frequency.value=3000;
+  cs.connect(cf);cf.connect(cg);cg.connect(c.destination);cs.start(ct);cs.stop(ct+0.25);
 }
-function playCorrect(){
-  const ctx=getCtx();
+function sndCorrect(){
+  const c=gctx();
   [523,659,784,1047].forEach((f,i)=>{
-    const t=ctx.currentTime+i*0.11;
-    const o=ctx.createOscillator(),g=ctx.createGain();
+    const t=c.currentTime+i*0.11;
+    const o=c.createOscillator(),g=c.createGain();
     o.type='sine';o.frequency.value=f;
     g.gain.setValueAtTime(0.28,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
-    o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+0.3);
+    o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+0.3);
   });
 }
-function playWrong(){
-  const ctx=getCtx();
-  const o=ctx.createOscillator(),g=ctx.createGain();
+function sndWrong(){
+  const c=gctx();const o=c.createOscillator(),g=c.createGain();
   o.type='sawtooth';o.frequency.value=110;
-  g.gain.setValueAtTime(0.4,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);
-  o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+0.65);
+  g.gain.setValueAtTime(0.4,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.6);
+  o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.65);
 }
-function playTick(urgent=false){
-  const ctx=getCtx();
-  const o=ctx.createOscillator(),g=ctx.createGain();
-  o.type='square';o.frequency.value=urgent?900:600;
-  g.gain.setValueAtTime(urgent?0.12:0.07,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.05);
-  o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+0.06);
+function sndTick(u=false){
+  const c=gctx();const o=c.createOscillator(),g=c.createGain();
+  o.type='square';o.frequency.value=u?900:600;
+  g.gain.setValueAtTime(u?0.12:0.07,c.currentTime);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+0.05);
+  o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.06);
 }
-function playPhoneRing(){
-  const ctx=getCtx();
-  [880,880,0,880,880,0,660].forEach((f,i)=>{
-    if(!f) return;
-    const t=ctx.currentTime+i*0.18;
-    const o=ctx.createOscillator(),g=ctx.createGain();
+function sndPhone(){
+  const c=gctx();
+  [880,880,0,880,880].forEach((f,i)=>{
+    if(!f)return;const t=c.currentTime+i*0.2;
+    const o=c.createOscillator(),g=c.createGain();
     o.type='sine';o.frequency.value=f;
     g.gain.setValueAtTime(0.2,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
-    o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+0.18);
+    o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+0.2);
   });
 }
-function playAudienceMurmur(){
-  const ctx=getCtx();
+function sndAudience(){
+  const c=gctx();
   for(let i=0;i<8;i++){
-    const t=ctx.currentTime+i*0.12;
-    const sz=Math.floor(ctx.sampleRate*0.1);
-    const buf=ctx.createBuffer(1,sz,ctx.sampleRate);
-    const d=buf.getChannelData(0);
+    const t=c.currentTime+i*0.12;
+    const sz=Math.floor(c.sampleRate*0.1);
+    const buf=c.createBuffer(1,sz,c.sampleRate);const d=buf.getChannelData(0);
     for(let j=0;j<sz;j++) d[j]=(Math.random()*2-1)*0.3;
-    const src=ctx.createBufferSource();src.buffer=buf;
-    const g=ctx.createGain();g.gain.setValueAtTime(0.06,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.1);
-    const f=ctx.createBiquadFilter();f.type='lowpass';f.frequency.value=800;
-    src.connect(f);f.connect(g);g.connect(ctx.destination);src.start(t);src.stop(t+0.12);
+    const src=c.createBufferSource();src.buffer=buf;
+    const g=c.createGain();g.gain.setValueAtTime(0.06,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.1);
+    const f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=800;
+    src.connect(f);f.connect(g);g.connect(c.destination);src.start(t);src.stop(t+0.12);
   }
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  STATE
-// ═══════════════════════════════════════════
-let state={
-  playerName:"",mode:"journey",
-  questions:[],currentIndex:0,
-  prizeWon:0,safeHaven:0,
-  lifelines:{fifty:true,poll:true,phone:true},
-  answered:false,gameOver:false,
-  safeHavenIndices:[],
-  timerInterval:null,timeLeft:TIMER_SECONDS,
+// ═══════════════════════════════
+let S={
+  name:"",mode:"journey",qs:[],idx:0,
+  prize:0,safe:0,
+  ll:{fifty:true,poll:true,phone:true},
+  answered:false,over:false,
+  safeIdx:[],timer:null,timeLeft:TIMER_SEC,
 };
 
-// ═══════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
+//  NAV
+// ═══════════════════════════════
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-function selectMode(mode,el){
+function pickMode(m,el){
   document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
-  el.classList.add('selected');
-  state.mode=mode;
+  el.classList.add('selected');S.mode=m;
 }
 
-// ═══════════════════════════════════════════
-//  START GAME
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
+//  START
+// ═══════════════════════════════
 function startGame(){
-  const name=document.getElementById('player-name-input').value.trim();
-  if(!name){document.getElementById('player-name-input').focus();return;}
-  state.playerName=name;
-  state.questions=buildGameQuestions(state.mode);
-  state.safeHavenIndices=state.mode==='journey'?SAFE_HAVENS_JOURNEY:[];
-  state.currentIndex=0;state.prizeWon=0;state.safeHaven=0;
-  state.lifelines={fifty:true,poll:true,phone:true};
-  state.answered=false;state.gameOver=false;
-  buildLadder();showScreen('screen-game');showDrumRoll(0);
+  const name=document.getElementById('name-input').value.trim();
+  if(!name){document.getElementById('name-input').focus();return;}
+  S.name=name;S.qs=buildQs(S.mode);
+  S.safeIdx=S.mode==='journey'?SAFE_IDX:[];
+  S.idx=0;S.prize=0;S.safe=0;
+  S.ll={fifty:true,poll:true,phone:true};
+  S.answered=false;S.over=false;
+  buildLadder();showScreen('screen-game');showDrum(0);
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  DRUM ROLL
-// ═══════════════════════════════════════════
-function showDrumRoll(index){
-  const q=state.questions[index];if(!q)return;
-  const ov=document.getElementById('drumroll-overlay');
-  document.getElementById('drumroll-qnum').textContent=`QUESTION ${index+1}`;
-  document.getElementById('drumroll-prize-amt').textContent=fmt(q.prize);
-  ov.classList.add('show');playDrumRoll(1.8);
-  setTimeout(()=>{ov.classList.remove('show');renderQuestion();},2000);
+// ═══════════════════════════════
+function showDrum(i){
+  const q=S.qs[i];if(!q)return;
+  document.getElementById('dr-qnum').textContent=`QUESTION ${i+1}`;
+  document.getElementById('dr-prize').textContent=fmt(q.prize);
+  document.getElementById('drumroll-ov').classList.add('show');
+  drumRoll(1.8);
+  setTimeout(()=>{document.getElementById('drumroll-ov').classList.remove('show');renderQ();},2000);
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  LADDER
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 function buildLadder(){
-  const wrap=document.getElementById('ladder-steps');wrap.innerHTML='';
-  state.questions.forEach((_,i)=>{
+  const w=document.getElementById('ladder-steps');w.innerHTML='';
+  S.qs.forEach((_,i)=>{
     const el=document.createElement('div');
-    el.className='ladder-step'+(state.safeHavenIndices.includes(i)?' safe':'');
-    el.id=`step-${i}`;el.textContent=`Q${i+1}`;wrap.appendChild(el);
-  });updateLadder();
+    el.className='ladder-step'+(S.safeIdx.includes(i)?' safe-q':'');
+    el.id=`ls-${i}`;el.textContent=`Q${i+1}`;w.appendChild(el);
+  });updLadder();
 }
-function updateLadder(){
-  state.questions.forEach((_,i)=>{
-    const el=document.getElementById(`step-${i}`);if(!el)return;
-    el.classList.remove('current','completed');
-    if(i<state.currentIndex) el.classList.add('completed');
-    else if(i===state.currentIndex) el.classList.add('current');
+function updLadder(){
+  S.qs.forEach((_,i)=>{
+    const el=document.getElementById(`ls-${i}`);if(!el)return;
+    el.classList.remove('now','done');
+    if(i<S.idx) el.classList.add('done');
+    else if(i===S.idx) el.classList.add('now');
   });
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  TIMER
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 function startTimer(){
-  clearInterval(state.timerInterval);state.timeLeft=TIMER_SECONDS;updateTimerUI();
-  state.timerInterval=setInterval(()=>{
-    if(state.answered||state.gameOver){clearInterval(state.timerInterval);return;}
-    state.timeLeft--;updateTimerUI();playTick(state.timeLeft<=10);
-    if(state.timeLeft<=0){clearInterval(state.timerInterval);timeUp();}
+  clearInterval(S.timer);S.timeLeft=TIMER_SEC;updTimer();
+  S.timer=setInterval(()=>{
+    if(S.answered||S.over){clearInterval(S.timer);return;}
+    S.timeLeft--;updTimer();sndTick(S.timeLeft<=10);
+    if(S.timeLeft<=0){clearInterval(S.timer);timeUp();}
   },1000);
 }
-function stopTimer(){clearInterval(state.timerInterval);}
-function updateTimerUI(){
-  const pct=(state.timeLeft/TIMER_SECONDS)*100;
-  document.getElementById('timer-bar').style.width=pct+'%';
-  document.getElementById('timer-count').textContent=state.timeLeft;
-  if(state.timeLeft<=10){document.getElementById('timer-bar').style.background='var(--red)';document.getElementById('timer-count').classList.add('warning');}
-  else if(state.timeLeft<=20){document.getElementById('timer-bar').style.background='var(--gold)';document.getElementById('timer-count').classList.remove('warning');}
-  else{document.getElementById('timer-bar').style.background='var(--green2)';document.getElementById('timer-count').classList.remove('warning');}
+function stopTimer(){clearInterval(S.timer);}
+function updTimer(){
+  const pct=(S.timeLeft/TIMER_SEC)*100;
+  const bar=document.getElementById('timer-bar');
+  const num=document.getElementById('timer-num');
+  bar.style.width=pct+'%';
+  num.textContent=S.timeLeft;
+  if(S.timeLeft<=10){bar.style.background='var(--red)';num.classList.add('warn');}
+  else if(S.timeLeft<=20){bar.style.background='var(--gold)';num.classList.remove('warn');}
+  else{bar.style.background='var(--green2)';num.classList.remove('warn');}
 }
 function timeUp(){
-  if(state.answered||state.gameOver)return;
-  state.answered=true;disableOptions();
-  document.getElementById(`opt-${state.questions[state.currentIndex].answer}`).classList.add('correct');
-  playWrong();setTimeout(()=>showResult(false,'time'),1400);
+  if(S.answered||S.over)return;
+  S.answered=true;disableOpts();
+  document.getElementById(`opt-${S.qs[S.idx].a}`).classList.add('correct');
+  sndWrong();setTimeout(()=>showResult(false,'time'),1400);
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  RENDER QUESTION
-// ═══════════════════════════════════════════
-function renderQuestion(){
-  const q=state.questions[state.currentIndex];if(!q)return;
-  state.answered=false;
-  document.getElementById('lifeline-result').style.display='none';
-  document.getElementById('hdr-name').textContent=state.playerName;
-  document.getElementById('hdr-mode').textContent={journey:'Full Journey 🚀',easy:'Easy Mode 🟢',medium:'Medium Mode 🟡',hard:'Hard Mode 🔴'}[state.mode];
-  document.getElementById('hdr-prize').textContent=fmt(state.prizeWon);
-  const pct=Math.round((state.currentIndex/state.questions.length)*100);
-  document.getElementById('prog-label').textContent=`Question ${state.currentIndex+1} of ${state.questions.length}`;
+// ═══════════════════════════════
+function renderQ(){
+  const q=S.qs[S.idx];if(!q)return;
+  S.answered=false;
+  document.getElementById('ll-result').style.display='none';
+  document.getElementById('hdr-name').textContent=S.name;
+  const ml={journey:'FULL JOURNEY 🚀',easy:'EASY MODE 🟢',medium:'MEDIUM MODE 🟡',hard:'HARD MODE 🔴'};
+  document.getElementById('hdr-mode').textContent=ml[S.mode];
+  document.getElementById('hdr-prize').textContent=fmt(S.prize);
+  const pct=Math.round((S.idx/S.qs.length)*100);
+  document.getElementById('prog-label').textContent=`Q${S.idx+1} of ${S.qs.length}`;
   document.getElementById('prog-pct').textContent=pct+'%';
   document.getElementById('prog-fill').style.width=pct+'%';
-  if(state.safeHaven>0){document.getElementById('safe-badge').style.display='inline-flex';document.getElementById('safe-amount').textContent=state.safeHaven.toLocaleString('en-IN');}
+  if(S.safe>0){document.getElementById('safe-badge').style.display='inline-flex';document.getElementById('safe-amt').textContent=S.safe.toLocaleString('en-IN');}
   else document.getElementById('safe-badge').style.display='none';
-  document.getElementById('q-num').textContent=`Q${state.currentIndex+1} · ${capitalize(q.difficulty)} · ${fmt(q.prize)}`;
-  document.getElementById('q-text').textContent=q.question;
-  const grid=document.getElementById('options-grid');grid.innerHTML='';
+  document.getElementById('q-meta').textContent=`Q${S.idx+1} · ${q.d.toUpperCase()} · ${fmt(q.prize)}`;
+  document.getElementById('q-text').textContent=q.q;
+
+  // ── FIX: Rebuild options grid completely fresh to clear any mobile active/hover state ──
+  const grid=document.getElementById('options-grid');
+  grid.innerHTML='';
   ['A','B','C','D'].forEach(key=>{
-    const btn=document.createElement('button');btn.className='option-btn';btn.id=`opt-${key}`;
-    btn.innerHTML=`<span class="option-key">${key}</span><span class="option-text">${q.options[key]}</span>`;
-    btn.onclick=()=>selectAnswer(key);grid.appendChild(btn);
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.id=`opt-${key}`;
+    btn.type='button';
+    btn.innerHTML=`<span class="opt-key">${key}</span><span class="opt-text">${q.o[key]}</span>`;
+    // Use both click and touchend to handle mobile correctly
+    btn.addEventListener('click',()=>pick(key));
+    grid.appendChild(btn);
   });
-  document.getElementById('ll-5050').disabled=!state.lifelines.fifty;
-  document.getElementById('ll-poll').disabled=!state.lifelines.poll;
-  document.getElementById('ll-phone').disabled=!state.lifelines.phone;
-  updateLadder();startTimer();
+
+  document.getElementById('ll-5050').disabled=!S.ll.fifty;
+  document.getElementById('ll-poll').disabled=!S.ll.poll;
+  document.getElementById('ll-phone').disabled=!S.ll.phone;
+  updLadder();startTimer();
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  ANSWER
-// ═══════════════════════════════════════════
-function selectAnswer(key){
-  if(state.answered||state.gameOver)return;
-  state.answered=true;stopTimer();disableOptions();
-  const q=state.questions[state.currentIndex];
+// ═══════════════════════════════
+function pick(key){
+  if(S.answered||S.over)return;
+  S.answered=true;stopTimer();disableOpts();
+  const q=S.qs[S.idx];
   setTimeout(()=>{
-    if(key===q.answer){
+    if(key===q.a){
       document.getElementById(`opt-${key}`).classList.add('correct');
-      playCorrect();state.prizeWon=q.prize;
-      document.getElementById('hdr-prize').textContent=fmt(state.prizeWon);
-      if(state.safeHavenIndices.includes(state.currentIndex)) state.safeHaven=q.prize;
+      sndCorrect();
+      S.prize=q.prize;
+      document.getElementById('hdr-prize').textContent=fmt(S.prize);
+      if(S.safeIdx.includes(S.idx)) S.safe=q.prize;
       setTimeout(()=>{
-        state.currentIndex++;
-        if(state.currentIndex>=state.questions.length) showResult(true);
-        else showDrumRoll(state.currentIndex);
+        S.idx++;
+        if(S.idx>=S.qs.length) showResult(true);
+        else showDrum(S.idx);
       },1200);
     } else {
       document.getElementById(`opt-${key}`).classList.add('wrong');
-      document.getElementById(`opt-${q.answer}`).classList.add('correct');
-      playWrong();setTimeout(()=>showResult(false),1400);
+      document.getElementById(`opt-${q.a}`).classList.add('correct');
+      sndWrong();setTimeout(()=>showResult(false),1400);
     }
   },500);
 }
-function disableOptions(){['A','B','C','D'].forEach(k=>{const b=document.getElementById(`opt-${k}`);if(b)b.disabled=true;});}
+function disableOpts(){
+  ['A','B','C','D'].forEach(k=>{const b=document.getElementById(`opt-${k}`);if(b)b.disabled=true;});
+}
 
-// ═══════════════════════════════════════════
-//  LIFELINES WITH ANIMATIONS
-// ═══════════════════════════════════════════
-function showLifelineAnim(icon, title, msg, duration, callback){
-  const ov=document.getElementById('ll-anim-overlay');
+// ═══════════════════════════════
+//  LIFELINES
+// ═══════════════════════════════
+function showLLAnim(icon,title,msg,dur,cb){
+  const ov=document.getElementById('ll-anim-ov');
   document.getElementById('ll-anim-icon').innerHTML=icon;
   document.getElementById('ll-anim-title').textContent=title;
   document.getElementById('ll-anim-msg').textContent=msg;
   document.getElementById('ll-typewriter').textContent='';
   ov.classList.add('show');
-  setTimeout(()=>{ov.classList.remove('show');callback();},duration);
+  setTimeout(()=>{ov.classList.remove('show');cb();},dur);
 }
-
-function typewriterEffect(text, elementId, speed=40){
-  const el=document.getElementById(elementId);
-  el.textContent='';let i=0;
-  const interval=setInterval(()=>{
-    el.textContent+=text[i];i++;
-    if(i>=text.length) clearInterval(interval);
-  },speed);
+function typeOut(text,id,spd=38){
+  const el=document.getElementById(id);el.textContent='';let i=0;
+  const iv=setInterval(()=>{el.textContent+=text[i];i++;if(i>=text.length)clearInterval(iv);},spd);
 }
 
 function useLifeline(type){
-  if(state.answered||state.gameOver)return;
-  const q=state.questions[state.currentIndex];
-  const res=document.getElementById('lifeline-result');
+  if(S.answered||S.over)return;
+  const q=S.qs[S.idx];
+  const res=document.getElementById('ll-result');
 
-  // ── 50/50 ──
-  if(type==='fifty'&&state.lifelines.fifty){
-    state.lifelines.fifty=false;
-    document.getElementById('ll-5050').disabled=true;
-    stopTimer();
-
-    showLifelineAnim('✂️','50 / 50','Removing two wrong options...',2800,()=>{
-      // Flicker animation then eliminate
-      const wrong=['A','B','C','D'].filter(k=>k!==q.answer);
+  if(type==='fifty'&&S.ll.fifty){
+    S.ll.fifty=false;document.getElementById('ll-5050').disabled=true;stopTimer();
+    showLLAnim('✂️','50 / 50','Removing wrong options...',2800,()=>{
+      const wrong=['A','B','C','D'].filter(k=>k!==q.a);
       const keep=wrong[Math.floor(Math.random()*wrong.length)];
-      const toRemove=wrong.filter(k=>k!==keep);
-
-      toRemove.forEach((k,idx)=>{
-        const btn=document.getElementById(`opt-${k}`);
-        if(!btn)return;
-        let flickers=0;
-        const flickerInterval=setInterval(()=>{
-          btn.classList.toggle('flickering');flickers++;
-          if(flickers>=8){clearInterval(flickerInterval);btn.classList.add('eliminated');btn.disabled=true;}
-        },150);
+      wrong.filter(k=>k!==keep).forEach(k=>{
+        const btn=document.getElementById(`opt-${k}`);if(!btn)return;
+        let n=0;const iv=setInterval(()=>{btn.classList.toggle('flicker');n++;if(n>=8){clearInterval(iv);btn.classList.remove('flicker');btn.classList.add('gone');btn.disabled=true;}},160);
       });
-
-      res.innerHTML='<strong>✂️ 50/50:</strong> Two wrong options removed!';
-      res.style.display='block';
+      res.innerHTML='<strong>✂️ 50/50:</strong> Two wrong options removed!';res.style.display='block';
       startTimer();
     });
   }
 
-  // ── AUDIENCE POLL ──
-  else if(type==='poll'&&state.lifelines.poll){
-    state.lifelines.poll=false;
-    document.getElementById('ll-poll').disabled=true;
-    stopTimer();
-    playAudienceMurmur();
-
-    const ov=document.getElementById('ll-anim-overlay');
+  else if(type==='poll'&&S.ll.poll){
+    S.ll.poll=false;document.getElementById('ll-poll').disabled=true;stopTimer();sndAudience();
+    const ov=document.getElementById('ll-anim-ov');
     document.getElementById('ll-anim-icon').innerHTML='👥';
     document.getElementById('ll-anim-title').textContent='AUDIENCE POLL';
     document.getElementById('ll-anim-msg').textContent='The audience is voting...';
     document.getElementById('ll-typewriter').textContent='';
     ov.classList.add('show');
-
     setTimeout(()=>{
       ov.classList.remove('show');
-
-      // Build poll data
       const cp=Math.floor(Math.random()*31)+45,rem=100-cp;
-      const wrong=['A','B','C','D'].filter(k=>k!==q.answer);
+      const wrong=['A','B','C','D'].filter(k=>k!==q.a);
       let r1=Math.floor(Math.random()*(rem-10))+5;
       let r2=Math.floor(Math.random()*(rem-r1-5))+5;
       let r3=rem-r1-r2;
-      const pcts={};wrong.forEach((k,i)=>pcts[k]=[r1,r2,r3][i]);pcts[q.answer]=cp;
-
-      let html='<strong>👥 Audience Poll Results:</strong><br/><br/>';
+      const pcts={};wrong.forEach((k,i)=>pcts[k]=[r1,r2,r3][i]);pcts[q.a]=cp;
+      let html='<strong>👥 Audience Poll:</strong><br/><br/>';
       ['A','B','C','D'].forEach(k=>{
-        html+=`<div class="poll-row">
-          <span class="poll-key">${k}</span>
-          <div class="poll-bar-wrap"><div class="poll-bar" id="pb-${k}" style="width:0%"></div></div>
-          <span class="poll-pct" id="pp-${k}" style="opacity:0">${pcts[k]}%</span>
-        </div>`;
+        html+=`<div class="poll-row"><span class="poll-key">${k}</span><div class="poll-bar-wrap"><div class="poll-bar" id="pb-${k}"></div></div><span class="poll-pct" id="pp-${k}">${pcts[k]}%</span></div>`;
       });
       res.innerHTML=html;res.style.display='block';
-
-      // Animate bars one by one with suspense
       ['A','B','C','D'].forEach((k,i)=>{
         setTimeout(()=>{
-          const bar=document.getElementById(`pb-${k}`);
-          const pct=document.getElementById(`pp-${k}`);
-          if(bar) bar.style.width=pcts[k]+'%';
-          setTimeout(()=>{if(pct) pct.style.opacity='1';},1000);
-        },i*400);
+          const bar=document.getElementById(`pb-${k}`);const pct=document.getElementById(`pp-${k}`);
+          if(bar)bar.style.width=pcts[k]+'%';
+          setTimeout(()=>{if(pct)pct.style.opacity='1';},900);
+        },i*420);
       });
-
       startTimer();
     },3000);
   }
 
-  // ── PHONE A FRIEND ──
-  else if(type==='phone'&&state.lifelines.phone){
-    state.lifelines.phone=false;
-    document.getElementById('ll-phone').disabled=true;
-    stopTimer();
-
+  else if(type==='phone'&&S.ll.phone){
+    S.ll.phone=false;document.getElementById('ll-phone').disabled=true;stopTimer();
     const friends=["Rahul (World Cup buff)","Priya (PL expert)","Carlos (La Liga fan)","Arjun (Stats geek)","Sofia (UEFA master)"];
     const friend=friends[Math.floor(Math.random()*friends.length)];
     const gc=Math.random()<0.8;
-    const sug=gc?q.answer:['A','B','C','D'].filter(k=>k!==q.answer)[Math.floor(Math.random()*3)];
+    const sug=gc?q.a:['A','B','C','D'].filter(k=>k!==q.a)[Math.floor(Math.random()*3)];
     const conf=gc?(Math.random()<0.5?'100% sure it is':'pretty confident the answer is'):'not totally sure, but maybe';
-    const friendMsg=`"Hey! I'm ${conf} ${sug}) ${q.options[sug]}. Go with it!"`;
-
-    const ov=document.getElementById('ll-anim-overlay');
-    document.getElementById('ll-anim-icon').innerHTML='<div class="phone-ring">📞</div>';
+    const msg=`"Hey! I'm ${conf} ${sug}) ${q.o[sug]}. Go with it!"`;
+    const ov=document.getElementById('ll-anim-ov');
+    document.getElementById('ll-anim-icon').innerHTML='<div class="phone-shake">📞</div>';
     document.getElementById('ll-anim-title').textContent='CALLING...';
     document.getElementById('ll-anim-msg').textContent=friend;
     document.getElementById('ll-typewriter').textContent='';
-    ov.classList.add('show');
-    playPhoneRing();
-
-    // After 2.5s show "Connected" then typewriter
+    ov.classList.add('show');sndPhone();
     setTimeout(()=>{
       document.getElementById('ll-anim-icon').innerHTML='📱';
       document.getElementById('ll-anim-title').textContent='CONNECTED!';
       document.getElementById('ll-anim-msg').textContent=friend+' says:';
-      typewriterEffect(friendMsg,'ll-typewriter',35);
-    },2500);
-
+      typeOut(msg,'ll-typewriter',36);
+    },2600);
     setTimeout(()=>{
       ov.classList.remove('show');
-      res.innerHTML=`<strong>📞 ${friend}:</strong><br/>${friendMsg}`;
-      res.style.display='block';
+      res.innerHTML=`<strong>📞 ${friend}:</strong><br/>${msg}`;res.style.display='block';
       startTimer();
-    },6000);
+    },6200);
   }
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  QUIT
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 function quitGame(){
-  if(state.gameOver)return;
-  stopTimer();state.gameOver=true;showResult('quit');
+  if(S.over)return;
+  stopTimer();S.over=true;showResult('quit');
 }
 
-// ═══════════════════════════════════════════
-//  RESULT
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
+//  RESULT — BUG FIX: quit saves S.prize not S.safe
+// ═══════════════════════════════
 function showResult(outcome,reason=''){
-  stopTimer();state.gameOver=true;
-  const finalPrize=outcome===true?state.prizeWon:state.safeHaven;
+  stopTimer();S.over=true;
+
+  // ✅ FIX: quit → save actual prize won, not safe haven
+  // wrong/time → save safe haven (what they actually take home)
+  const scoreToSave = (outcome===true||outcome==='quit') ? S.prize : S.safe;
+
   if(outcome===true){
     document.getElementById('res-icon').textContent='🏆';
     document.getElementById('res-title').textContent='CHAMPION!';
-    document.getElementById('res-title').className='result-title win';
-    document.getElementById('res-prize').textContent=fmt(state.prizeWon);
-    document.getElementById('res-msg').textContent=`${state.playerName}, you answered all questions correctly! True Football Legend! ⚽`;
+    document.getElementById('res-title').className='res-title win';
+    document.getElementById('res-prize').textContent=fmt(S.prize);
+    document.getElementById('res-msg').textContent=`${S.name}, you answered all questions correctly! True Football Legend! ⚽`;
     launchConfetti();
   } else if(outcome==='quit'){
     document.getElementById('res-icon').textContent='👋';
     document.getElementById('res-title').textContent='YOU QUIT';
-    document.getElementById('res-title').className='result-title';
-    document.getElementById('res-prize').textContent=fmt(state.prizeWon);
-    document.getElementById('res-msg').textContent=`You walked away with ${fmt(state.prizeWon)}. Safe haven: ${fmt(state.safeHaven)}.`;
+    document.getElementById('res-title').className='res-title';
+    document.getElementById('res-prize').textContent=fmt(S.prize);
+    document.getElementById('res-msg').textContent=`Smart move, ${S.name}! You walk away with ${fmt(S.prize)}. Safe haven was ${fmt(S.safe)}.`;
   } else {
     document.getElementById('res-icon').textContent=reason==='time'?'⏰':'❌';
     document.getElementById('res-title').textContent=reason==='time'?'TIME UP!':'GAME OVER';
-    document.getElementById('res-title').className='result-title lose';
-    document.getElementById('res-prize').textContent=fmt(state.safeHaven);
-    document.getElementById('res-msg').textContent=`${reason==='time'?'Time ran out':'Tough luck'}, ${state.playerName}! Safe haven: ${fmt(state.safeHaven)}.`;
+    document.getElementById('res-title').className='res-title lose';
+    document.getElementById('res-prize').textContent=fmt(S.safe);
+    document.getElementById('res-msg').textContent=`${reason==='time'?'Time ran out':'Tough luck'}, ${S.name}! You take home your safe haven: ${fmt(S.safe)}.`;
   }
-  // Save to both Supabase (global) and localStorage (local)
-  saveScoreGlobal(state.playerName, finalPrize, state.mode);
-  saveScoreLocal(state.playerName, finalPrize, state.mode);
-  document.getElementById('result-overlay').classList.add('show');
+
+  saveGlobal(S.name, scoreToSave, S.mode);
+  saveLocal(S.name, scoreToSave, S.mode);
+  document.getElementById('result-ov').classList.add('show');
 }
-function closeResult(){document.getElementById('result-overlay').classList.remove('show');}
+function closeResult(){document.getElementById('result-ov').classList.remove('show');}
 function playAgain(){closeResult();showScreen('screen-intro');}
 
-// ═══════════════════════════════════════════
-//  LOCAL LEADERBOARD (fallback)
-// ═══════════════════════════════════════════
-function saveScoreLocal(name,prize,mode){
-  if(!name||prize===0)return;
+// ═══════════════════════════════
+//  LOCAL SCORES
+// ═══════════════════════════════
+function saveLocal(name,score,mode){
+  if(!name||score===0)return;
   let lb=JSON.parse(localStorage.getItem('goaliq_millionaire_lb')||'[]');
-  lb.push({name,score:prize,mode,date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})});
+  lb.push({name,score,mode,date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})});
   lb=lb.sort((a,b)=>b.score-a.score).slice(0,20);
   localStorage.setItem('goaliq_millionaire_lb',JSON.stringify(lb));
 }
 
-// ═══════════════════════════════════════════
-//  LEADERBOARD RENDER
-// ═══════════════════════════════════════════
-async function renderLeaderboard(tab='global'){
-  // Update tab styles
+// ═══════════════════════════════
+//  LEADERBOARD
+// ═══════════════════════════════
+async function renderLB(tab='global'){
   document.getElementById('tab-global').classList.toggle('active',tab==='global');
   document.getElementById('tab-local').classList.toggle('active',tab==='local');
-
-  const content=document.getElementById('lb-content');
-  const medals=['🥇','🥈','🥉'];
-
+  const c=document.getElementById('lb-content');
+  const m=['🥇','🥈','🥉'];
   if(tab==='global'){
-    content.innerHTML='<p class="lb-loading">⏳ Loading global scores...</p>';
-    const scores=await fetchGlobalLeaderboard();
-
-    if(!scores){
-      // Supabase not configured — show message
-      content.innerHTML=`<p class="lb-empty">🔧 Global leaderboard coming soon!<br/><br/>Add your Supabase config to enable global scores.<br/>Switch to "My Scores" tab to see local games.</p>`;
-      return;
-    }
-    if(!scores.length){content.innerHTML='<p class="lb-empty">No scores yet. Be the first! ⚽</p>';return;}
+    c.innerHTML='<p class="lb-loading">⏳ Loading global scores...</p>';
+    const scores=await fetchGlobal();
+    if(!scores){c.innerHTML='<p class="lb-empty">🔧 Add your Supabase config to see global scores.<br/>Switch to My Scores to see local games.</p>';return;}
+    if(!scores.length){c.innerHTML='<p class="lb-empty">No scores yet — be the first! ⚽</p>';return;}
     let html=`<table class="lb-table"><thead><tr><th>Rank</th><th>Name</th><th>Prize</th><th>Mode</th><th>Date</th></tr></thead><tbody>`;
-    scores.forEach((s,i)=>{
-      html+=`<tr><td class="lb-rank">${medals[i]||'#'+(i+1)}</td><td>${s.name}</td><td class="lb-prize">${fmt(s.score)}</td><td style="font-size:12px;color:var(--text-dim)">${s.mode||'-'}</td><td style="color:var(--text-dim);font-size:13px">${s.date}</td></tr>`;
-    });
-    html+=`</tbody></table>`;
-    content.innerHTML=html;
+    scores.forEach((s,i)=>{html+=`<tr><td class="lb-rank">${m[i]||'#'+(i+1)}</td><td>${s.name}</td><td class="lb-prize">${fmt(s.score)}</td><td style="font-size:12px;color:var(--text-dim)">${s.mode||'-'}</td><td style="color:var(--text-dim);font-size:13px">${s.date}</td></tr>`;});
+    html+=`</tbody></table>`;c.innerHTML=html;
   } else {
     const scores=JSON.parse(localStorage.getItem('goaliq_millionaire_lb')||'[]');
-    if(!scores.length){content.innerHTML='<p class="lb-empty">No local scores yet. Play a game! ⚽</p>';return;}
+    if(!scores.length){c.innerHTML='<p class="lb-empty">No local scores yet. Play a game! ⚽</p>';return;}
     let html=`<table class="lb-table"><thead><tr><th>Rank</th><th>Name</th><th>Prize</th><th>Date</th></tr></thead><tbody>`;
-    scores.forEach((s,i)=>{
-      html+=`<tr><td class="lb-rank">${medals[i]||'#'+(i+1)}</td><td>${s.name}</td><td class="lb-prize">${fmt(s.score)}</td><td style="color:var(--text-dim);font-size:13px">${s.date}</td></tr>`;
-    });
-    html+=`</tbody></table>`;
-    content.innerHTML=html;
+    scores.forEach((s,i)=>{html+=`<tr><td class="lb-rank">${m[i]||'#'+(i+1)}</td><td>${s.name}</td><td class="lb-prize">${fmt(s.score)}</td><td style="color:var(--text-dim);font-size:13px">${s.date}</td></tr>`;});
+    html+=`</tbody></table>`;c.innerHTML=html;
   }
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  CONFETTI
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 function launchConfetti(){
-  const colors=['#00e676','#ffd600','#ff1744','#40c4ff','#ea80fc'];
-  for(let i=0;i<80;i++){
+  const cols=['#00ff87','#ffd600','#ff1744','#00b0ff','#ea80fc'];
+  for(let i=0;i<90;i++){
     setTimeout(()=>{
-      const el=document.createElement('div');el.className='confetti-piece';
-      el.style.cssText=`left:${Math.random()*100}vw;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.5}s;`;
+      const el=document.createElement('div');el.className='cp';
+      el.style.cssText=`left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'2px'};animation-duration:${1.5+Math.random()*2}s;animation-delay:${Math.random()*.4}s;`;
       document.body.appendChild(el);setTimeout(()=>el.remove(),3500);
-    },i*20);
+    },i*18);
   }
 }
 
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 //  HELPERS
-// ═══════════════════════════════════════════
+// ═══════════════════════════════
 function fmt(n){return '₹'+Number(n).toLocaleString('en-IN');}
-function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-document.getElementById('player-name-input').addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});
-state.mode='journey';
+document.getElementById('name-input').addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});
+S.mode='journey';
 </script>
 </body>
 </html>
