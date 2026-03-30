@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Football KBC — Kaun Banega Crorepati</title>
+<title>GoalIQ Millionaire</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -23,7 +23,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .screen.active{display:block;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── INTRO ── */
+/* INTRO */
 #screen-intro{text-align:center;}
 .trophy-ring{width:120px;height:120px;margin:0 auto 24px;border-radius:50%;border:3px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:52px;box-shadow:0 0 40px rgba(0,230,118,0.3);animation:pulse 2.5s ease-in-out infinite;}
 @keyframes pulse{0%,100%{box-shadow:0 0 40px rgba(0,230,118,0.3)}50%{box-shadow:0 0 70px rgba(0,230,118,0.5)}}
@@ -34,7 +34,6 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .name-input-wrap input{width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;padding:14px 18px;color:var(--text);font-family:'Barlow',sans-serif;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s;}
 .name-input-wrap input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,230,118,0.15);}
 .name-input-wrap input::placeholder{color:#2e7d32;}
-
 .mode-label{font-size:12px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px;}
 .mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 auto 24px;max-width:520px;}
 .mode-card{background:var(--surface);border:2px solid var(--border);border-radius:12px;padding:18px 14px;cursor:pointer;transition:all .2s;text-align:center;}
@@ -42,7 +41,6 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .mode-icon{font-size:30px;margin-bottom:8px;}
 .mode-name{font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:2px;color:var(--gold);}
 .mode-desc{font-size:12px;color:var(--text-dim);margin-top:5px;line-height:1.4;}
-
 .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:8px;border:none;font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s;text-transform:uppercase;}
 .btn-primary{background:var(--green2);color:#000;}
 .btn-primary:hover{background:var(--green);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,200,83,0.4);}
@@ -53,7 +51,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important;}
 .intro-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
 
-/* ── GAME ── */
+/* GAME */
 .game-header{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 20px;margin-bottom:14px;}
 .player-info{display:flex;align-items:center;gap:10px;}
 .player-avatar{width:38px;height:38px;border-radius:50%;background:var(--green-dim);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:18px;}
@@ -63,7 +61,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .prize-label{font-size:11px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;}
 .prize-amount{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:2px;}
 
-/* Timer */
+/* TIMER */
 .timer-wrap{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 18px;margin-bottom:14px;}
 .timer-bar-wrap{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;}
 .timer-bar{height:100%;border-radius:4px;transition:width 1s linear,background .3s;}
@@ -71,13 +69,13 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .timer-count.warning{color:var(--red);animation:timerBlink .5s ease-in-out infinite;}
 @keyframes timerBlink{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
 
-/* Progress */
+/* PROGRESS */
 .progress-wrap{margin-bottom:14px;}
 .progress-info{display:flex;justify-content:space-between;font-size:12px;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;}
 .progress-bar{height:4px;background:var(--surface2);border-radius:4px;overflow:hidden;}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--green2),var(--gold));border-radius:4px;transition:width .5s ease;}
 
-/* Ladder */
+/* LADDER */
 .ladder-mini{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:14px;}
 .ladder-mini-title{font-size:11px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:9px;}
 .ladder-steps{display:flex;gap:5px;flex-wrap:wrap;}
@@ -87,19 +85,23 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .ladder-step.safe{border-style:dashed;}
 
 .safe-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,214,0,0.1);border:1px solid rgba(255,214,0,0.3);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--gold);margin-bottom:12px;}
-.lifeline-result{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:13px;font-size:14px;line-height:1.6;animation:fadeUp .3s ease both;}
+
+/* LIFELINE RESULT */
+.lifeline-result{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:13px;font-size:14px;line-height:1.6;}
 .lifeline-result strong{color:var(--gold);}
 .poll-row{display:flex;align-items:center;gap:10px;margin:5px 0;}
 .poll-key{width:20px;font-weight:700;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-size:15px;}
 .poll-bar-wrap{flex:1;background:var(--surface);border-radius:4px;height:16px;overflow:hidden;}
-.poll-bar{height:100%;background:linear-gradient(90deg,var(--green-dim),var(--green2));border-radius:4px;transition:width .8s ease;}
-.poll-pct{width:36px;text-align:right;font-size:12px;color:var(--text-dim);}
+.poll-bar{height:100%;background:linear-gradient(90deg,var(--green-dim),var(--green2));border-radius:4px;width:0%;transition:width 1s ease;}
+.poll-pct{width:36px;text-align:right;font-size:12px;color:var(--text-dim);opacity:0;transition:opacity .5s ease;}
 
+/* QUESTION */
 .question-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:14px;position:relative;overflow:hidden;}
 .question-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green2),var(--gold),var(--green2));}
 .question-num{font-size:11px;letter-spacing:3px;color:var(--green);text-transform:uppercase;margin-bottom:10px;}
 .question-text{font-size:clamp(16px,2.4vw,20px);font-weight:600;line-height:1.5;}
 
+/* OPTIONS */
 .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
 .option-btn{background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:14px 15px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:all .2s;text-align:left;font-family:'Barlow',sans-serif;width:100%;}
 .option-btn:hover:not(:disabled){border-color:var(--green);background:var(--surface2);transform:translateY(-2px);box-shadow:0 5px 18px rgba(0,230,118,0.1);}
@@ -109,9 +111,12 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .option-btn.correct .option-key{background:var(--green2);border-color:var(--green2);color:#000;}
 .option-btn.wrong{border-color:var(--red)!important;background:rgba(255,23,68,0.1)!important;}
 .option-btn.wrong .option-key{background:var(--red2);border-color:var(--red2);color:#fff;}
-.option-btn.eliminated{opacity:.22;cursor:not-allowed;pointer-events:none;}
+.option-btn.eliminated{opacity:.22;cursor:not-allowed;pointer-events:none;transition:opacity .4s ease;}
+.option-btn.flickering{animation:flicker .15s ease-in-out;}
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:0.2}}
 .option-btn:disabled{cursor:not-allowed;}
 
+/* LIFELINES */
 .lifelines-row{display:flex;gap:8px;margin-bottom:13px;flex-wrap:wrap;}
 .lifeline-btn{flex:1;min-width:100px;background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:8px 11px;display:flex;align-items:center;gap:6px;cursor:pointer;transition:all .2s;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;color:var(--text);}
 .lifeline-btn:hover:not(:disabled){border-color:var(--gold);color:var(--gold);}
@@ -119,7 +124,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .lifeline-icon{font-size:15px;}
 .action-row{display:flex;gap:10px;justify-content:flex-end;}
 
-/* Result */
+/* RESULT */
 .result-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);display:none;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(6px);}
 .result-overlay.show{display:flex;}
 .result-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px;max-width:440px;width:90%;text-align:center;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both;}
@@ -132,7 +137,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .result-msg{color:var(--text-dim);margin-bottom:28px;line-height:1.6;}
 .result-btns{display:flex;gap:12px;justify-content:center;}
 
-/* Leaderboard */
+/* LEADERBOARD */
 #screen-leaderboard{text-align:center;}
 .section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,42px);letter-spacing:3px;color:var(--gold);margin-bottom:4px;}
 .section-sub{font-size:13px;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:24px;}
@@ -143,8 +148,12 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .lb-rank{font-family:'Bebas Neue',sans-serif;font-size:22px;}
 .lb-prize{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;color:var(--gold);}
 .lb-empty{color:var(--text-dim);padding:40px;font-style:italic;}
+.lb-loading{color:var(--text-dim);padding:30px;font-size:14px;letter-spacing:2px;}
+.lb-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:16px;}
+.lb-tab{padding:8px 20px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.lb-tab.active{border-color:var(--green);color:var(--green);background:rgba(0,200,83,0.1);}
 
-/* Drum roll overlay */
+/* DRUM ROLL */
 .drumroll-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.93);display:none;align-items:center;justify-content:center;z-index:150;flex-direction:column;gap:18px;backdrop-filter:blur(8px);}
 .drumroll-overlay.show{display:flex;}
 .drum-emoji{font-size:56px;animation:drumBounce .25s ease-in-out infinite alternate;}
@@ -154,7 +163,21 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 .drumroll-for{font-family:'Barlow Condensed',sans-serif;font-size:20px;letter-spacing:4px;color:var(--green);text-transform:uppercase;}
 .drumroll-prize-amt{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,48px);letter-spacing:3px;color:var(--text);}
 
-/* Confetti */
+/* LIFELINE ANIMATION OVERLAY */
+.lifeline-anim-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);display:none;align-items:center;justify-content:center;z-index:160;flex-direction:column;gap:20px;backdrop-filter:blur(10px);}
+.lifeline-anim-overlay.show{display:flex;}
+.lifeline-anim-icon{font-size:64px;}
+.lifeline-anim-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,6vw,52px);letter-spacing:5px;color:var(--gold);}
+.lifeline-anim-msg{font-family:'Barlow Condensed',sans-serif;font-size:18px;letter-spacing:3px;color:var(--green);text-transform:uppercase;}
+.lifeline-anim-dots span{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--green);margin:0 4px;animation:dotBounce 1s ease-in-out infinite;}
+.lifeline-anim-dots span:nth-child(2){animation-delay:.2s;}
+.lifeline-anim-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes dotBounce{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-12px);opacity:1}}
+.phone-ring{font-size:42px;animation:phoneShake .4s ease-in-out infinite;}
+@keyframes phoneShake{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+.typewriter{font-family:'Barlow',sans-serif;font-size:16px;color:var(--text);max-width:400px;text-align:center;line-height:1.6;min-height:60px;}
+
+/* CONFETTI */
 .confetti-piece{position:fixed;width:8px;height:8px;pointer-events:none;z-index:200;animation:confettiFall linear forwards;}
 @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
 
@@ -168,23 +191,21 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 <body>
 <div id="app">
 
-  <!-- ══ INTRO ══ -->
+  <!-- INTRO -->
   <div id="screen-intro" class="screen active">
     <div class="trophy-ring">⚽</div>
-    <div class="game-title">Football KBC</div>
-    <div class="game-subtitle">Kaun Banega Crorepati</div>
-
+    <div class="game-title">GOAlIQ-MILLIONAIRE</div>
+    <div class="game-subtitle">THE ULTIMATE FOOTBALL QUIZ</div>
     <div class="name-input-wrap">
       <label>Your Name</label>
       <input type="text" id="player-name-input" placeholder="Enter your name..." maxlength="20" autocomplete="off"/>
     </div>
-
     <p class="mode-label">Select Game Mode</p>
     <div class="mode-cards">
       <div class="mode-card selected" onclick="selectMode('journey',this)">
         <div class="mode-icon">🚀</div>
         <div class="mode-name">Full Journey</div>
-        <div class="mode-desc">All 15 questions — Easy → Medium → Hard. The real KBC experience.</div>
+        <div class="mode-desc">All 15 questions — Easy → Medium → Hard. The real Millionaire experience.</div>
       </div>
       <div class="mode-card" onclick="selectMode('easy',this)">
         <div class="mode-icon">🟢</div>
@@ -202,15 +223,14 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
         <div class="mode-desc">4 deep trivia questions. Experts only.</div>
       </div>
     </div>
-
     <div class="intro-btns">
       <button class="btn btn-primary" onclick="startGame()">▶ &nbsp;Play Game</button>
-      <button class="btn btn-secondary" onclick="showScreen('screen-leaderboard');renderLeaderboard()">🏆 &nbsp;Leaderboard</button>
+      <button class="btn btn-secondary" onclick="showScreen('screen-leaderboard');renderLeaderboard('global')">🏆 &nbsp;Leaderboard</button>
     </div>
-    <p style="margin-top:20px;font-size:12px;color:#2e7d32;letter-spacing:1px;">⏱️ 30 sec per question · 3 lifelines · ₹1,00,00,000 to win</p>
+    <p style="margin-top:20px;font-size:12px;color:#2e7d32;letter-spacing:1px;">⏱️ 30 sec per question · 3 lifelines · ₹1,00,00,000 to win · 90 question bank</p>
   </div>
 
-  <!-- ══ GAME ══ -->
+  <!-- GAME -->
   <div id="screen-game" class="screen">
     <div class="game-header">
       <div class="player-info">
@@ -225,17 +245,11 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
         <div class="prize-amount" id="hdr-prize">₹0</div>
       </div>
     </div>
-
-    <!-- Timer -->
     <div class="timer-wrap">
       <span style="font-size:20px">⏱️</span>
-      <div class="timer-bar-wrap">
-        <div class="timer-bar" id="timer-bar" style="width:100%;background:var(--green2)"></div>
-      </div>
+      <div class="timer-bar-wrap"><div class="timer-bar" id="timer-bar" style="width:100%;background:var(--green2)"></div></div>
       <div class="timer-count" id="timer-count">30</div>
     </div>
-
-    <!-- Progress -->
     <div class="progress-wrap">
       <div class="progress-info">
         <span id="prog-label">Question 1 of 15</span>
@@ -243,38 +257,35 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
       </div>
       <div class="progress-bar"><div class="progress-fill" id="prog-fill" style="width:0%"></div></div>
     </div>
-
-    <!-- Ladder -->
     <div class="ladder-mini">
       <div class="ladder-mini-title">Prize Ladder</div>
       <div class="ladder-steps" id="ladder-steps"></div>
     </div>
-
     <div id="safe-badge" class="safe-badge" style="display:none">🔒 Safe Haven — ₹<span id="safe-amount">0</span> guaranteed</div>
     <div id="lifeline-result" class="lifeline-result" style="display:none"></div>
-
     <div class="question-card">
       <div class="question-num" id="q-num">Question 1</div>
       <div class="question-text" id="q-text">Loading...</div>
     </div>
-
     <div class="options-grid" id="options-grid"></div>
-
     <div class="lifelines-row">
       <button class="lifeline-btn" id="ll-5050" onclick="useLifeline('fifty')"><span class="lifeline-icon">✂️</span>50 / 50</button>
       <button class="lifeline-btn" id="ll-poll" onclick="useLifeline('poll')"><span class="lifeline-icon">👥</span>Audience Poll</button>
       <button class="lifeline-btn" id="ll-phone" onclick="useLifeline('phone')"><span class="lifeline-icon">📞</span>Phone Friend</button>
     </div>
-
     <div class="action-row">
       <button class="btn btn-danger" onclick="quitGame()">🚪 Quit & Take Money</button>
     </div>
   </div>
 
-  <!-- ══ LEADERBOARD ══ -->
+  <!-- LEADERBOARD -->
   <div id="screen-leaderboard" class="screen">
     <div class="section-title">🏆 Hall of Fame</div>
-    <div class="section-sub">Top Football KBC Champions</div>
+    <div class="section-sub">Top GoalIQ Millionaire Champions</div>
+    <div class="lb-tabs">
+      <div class="lb-tab active" id="tab-global" onclick="renderLeaderboard('global')">🌍 Global</div>
+      <div class="lb-tab" id="tab-local" onclick="renderLeaderboard('local')">📱 My Scores</div>
+    </div>
     <div id="lb-content"></div>
     <div style="text-align:center;margin-top:16px;">
       <button class="btn btn-secondary" onclick="showScreen('screen-intro')">← Back to Menu</button>
@@ -283,7 +294,16 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
 
 </div>
 
-<!-- ══ DRUM ROLL OVERLAY ══ -->
+<!-- LIFELINE ANIMATION OVERLAY -->
+<div class="lifeline-anim-overlay" id="ll-anim-overlay">
+  <div class="lifeline-anim-icon" id="ll-anim-icon">✂️</div>
+  <div class="lifeline-anim-title" id="ll-anim-title">50 / 50</div>
+  <div class="lifeline-anim-msg" id="ll-anim-msg">Processing...</div>
+  <div class="lifeline-anim-dots"><span></span><span></span><span></span></div>
+  <div class="typewriter" id="ll-typewriter"></div>
+</div>
+
+<!-- DRUM ROLL OVERLAY -->
 <div class="drumroll-overlay" id="drumroll-overlay">
   <div class="drum-emoji">🥁</div>
   <div class="drumroll-qnum" id="drumroll-qnum">QUESTION 1</div>
@@ -291,7 +311,7 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
   <div class="drumroll-prize-amt" id="drumroll-prize-amt">₹1,000</div>
 </div>
 
-<!-- ══ RESULT OVERLAY ══ -->
+<!-- RESULT OVERLAY -->
 <div class="result-overlay" id="result-overlay">
   <div class="result-card">
     <div class="result-icon" id="res-icon">🏆</div>
@@ -300,15 +320,60 @@ body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse
     <div class="result-msg" id="res-msg">Congratulations!</div>
     <div class="result-btns">
       <button class="btn btn-primary" onclick="playAgain()">▶ Play Again</button>
-      <button class="btn btn-secondary" onclick="showScreen('screen-leaderboard');renderLeaderboard();closeResult()">🏆 Leaderboard</button>
+      <button class="btn btn-secondary" onclick="showScreen('screen-leaderboard');renderLeaderboard('global');closeResult()">🏆 Leaderboard</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── FULL QUESTION BANK (90 questions) ──
+// ═══════════════════════════════════════════
+//  ⚙️  SUPABASE CONFIG 
+// ═══════════════════════════════════════════
+const SUPABASE_URL = 'https://wvnmwclznmsbqcvuzqbt.supabase.co';       
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind2bm13Y2x6bm1zYnFjdnV6cWJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ4MzgxMzQsImV4cCI6MjA5MDQxNDEzNH0.b3F70pD-lp1Z3E4upGqqTweE6YnxpeKl_Pq3T55aGhA';  
+
+async function supabaseFetch(path, options={}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    headers: {
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': options.prefer || ''
+    },
+    ...options
+  });
+  if (!res.ok) throw new Error(`Supabase error: ${res.status}`);
+  return res.json().catch(()=>({}));
+}
+
+async function saveScoreGlobal(name, score, mode) {
+  if (!name || score === 0) return;
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL') return; // not configured yet
+  try {
+    await supabaseFetch('leaderboard', {
+      method: 'POST',
+      prefer: 'return=minimal',
+      body: JSON.stringify({
+        name,
+        score,
+        mode,
+        date: new Date().toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'})
+      })
+    });
+  } catch(e) { console.warn('Supabase save failed:', e.message); }
+}
+
+async function fetchGlobalLeaderboard() {
+  if (SUPABASE_URL === 'YOUR_SUPABASE_URL') return null;
+  try {
+    return await supabaseFetch('leaderboard?select=name,score,mode,date&order=score.desc&limit=20');
+  } catch(e) { return null; }
+}
+
+// ═══════════════════════════════════════════
+//  FULL QUESTION BANK (90 questions)
+// ═══════════════════════════════════════════
 const ALL_QUESTIONS=[
-  // EASY (30)
   {id:1,question:"Which country won the first ever FIFA World Cup in 1930?",options:{A:"Brazil",B:"Argentina",C:"Uruguay",D:"Italy"},answer:"C",difficulty:"easy"},
   {id:2,question:"How many players are there in a football team on the field?",options:{A:"9",B:"10",C:"11",D:"12"},answer:"C",difficulty:"easy"},
   {id:3,question:"Which country has won the most FIFA World Cup titles?",options:{A:"Germany",B:"Italy",C:"Argentina",D:"Brazil"},answer:"D",difficulty:"easy"},
@@ -324,14 +389,14 @@ const ALL_QUESTIONS=[
   {id:13,question:"Which country did Pele represent?",options:{A:"Argentina",B:"Portugal",C:"Brazil",D:"Uruguay"},answer:"C",difficulty:"easy"},
   {id:14,question:"The FIFA World Cup is held every how many years?",options:{A:"2",B:"3",C:"4",D:"5"},answer:"C",difficulty:"easy"},
   {id:15,question:"Which team plays their home games at Old Trafford?",options:{A:"Manchester City",B:"Liverpool",C:"Chelsea",D:"Manchester United"},answer:"D",difficulty:"easy"},
-  {id:16,question:"What is the maximum number of substitutes allowed in a standard FIFA match?",options:{A:"3",B:"4",C:"5",D:"6"},answer:"C",difficulty:"easy"},
+  {id:16,question:"What is the maximum number of substitutes in a standard FIFA match?",options:{A:"3",B:"4",C:"5",D:"6"},answer:"C",difficulty:"easy"},
   {id:17,question:"Which country won the UEFA Euro 2020 tournament?",options:{A:"France",B:"England",C:"Spain",D:"Italy"},answer:"D",difficulty:"easy"},
   {id:18,question:"Which club is known as 'Los Blancos'?",options:{A:"Juventus",B:"Real Madrid",C:"Bayern Munich",D:"Inter Milan"},answer:"B",difficulty:"easy"},
   {id:19,question:"Which club did Neymar join after leaving Barcelona in 2017?",options:{A:"Real Madrid",B:"Juventus",C:"PSG",D:"Chelsea"},answer:"C",difficulty:"easy"},
   {id:20,question:"Which country is Kylian Mbappe from?",options:{A:"Belgium",B:"Senegal",C:"France",D:"Ivory Coast"},answer:"C",difficulty:"easy"},
   {id:21,question:"What colour are the home shirts of the Brazilian national team?",options:{A:"Green",B:"White",C:"Blue",D:"Yellow"},answer:"D",difficulty:"easy"},
   {id:22,question:"Which club is known as 'The Gunners'?",options:{A:"Arsenal",B:"Tottenham",C:"West Ham",D:"Everton"},answer:"A",difficulty:"easy"},
-  {id:23,question:"How many teams competed in the FIFA World Cup final tournament from 1998 to 2022?",options:{A:"16",B:"24",C:"32",D:"48"},answer:"C",difficulty:"easy"},
+  {id:23,question:"How many teams competed in the FIFA World Cup from 1998 to 2022?",options:{A:"16",B:"24",C:"32",D:"48"},answer:"C",difficulty:"easy"},
   {id:24,question:"Which player is nicknamed 'CR7'?",options:{A:"Carlos Ronaldo",B:"Cristiano Ronaldo",C:"Cafu Ronaldinho",D:"Carlos Ramos"},answer:"B",difficulty:"easy"},
   {id:25,question:"Which country is Erling Haaland from?",options:{A:"Sweden",B:"Denmark",C:"Norway",D:"Finland"},answer:"C",difficulty:"easy"},
   {id:26,question:"What does VAR stand for in football?",options:{A:"Video Assist Referee",B:"Visual Action Review",C:"Video Assistant Referee",D:"Visual Aid Referee"},answer:"C",difficulty:"easy"},
@@ -339,7 +404,6 @@ const ALL_QUESTIONS=[
   {id:28,question:"Which nation won the first UEFA European Championship in 1960?",options:{A:"France",B:"West Germany",C:"Soviet Union",D:"Yugoslavia"},answer:"C",difficulty:"easy"},
   {id:29,question:"Which club is nicknamed 'Die Bayern'?",options:{A:"Borussia Dortmund",B:"Bayer Leverkusen",C:"Schalke 04",D:"Bayern Munich"},answer:"D",difficulty:"easy"},
   {id:30,question:"Which player holds the record for most appearances in the FIFA World Cup?",options:{A:"Pele",B:"Lothar Matthaus",C:"Diego Maradona",D:"Cafu"},answer:"B",difficulty:"easy"},
-  // MEDIUM (30)
   {id:31,question:"Which stadium is the home ground of FC Barcelona?",options:{A:"Santiago Bernabeu",B:"Nou Camp",C:"Wanda Metropolitano",D:"Mestalla"},answer:"B",difficulty:"medium"},
   {id:32,question:"Who is the all-time top scorer in FIFA World Cup history?",options:{A:"Ronaldo (Brazil)",B:"Just Fontaine",C:"Miroslav Klose",D:"Gerd Muller"},answer:"C",difficulty:"medium"},
   {id:33,question:"Which club has won the most UEFA Champions League titles?",options:{A:"FC Barcelona",B:"Bayern Munich",C:"AC Milan",D:"Real Madrid"},answer:"D",difficulty:"medium"},
@@ -350,158 +414,169 @@ const ALL_QUESTIONS=[
   {id:38,question:"Which club won the first European Cup in 1956?",options:{A:"AC Milan",B:"Barcelona",C:"Real Madrid",D:"Benfica"},answer:"C",difficulty:"medium"},
   {id:39,question:"Who won the 2018 FIFA World Cup Golden Boot?",options:{A:"Cristiano Ronaldo",B:"Antoine Griezmann",C:"Harry Kane",D:"Kylian Mbappe"},answer:"C",difficulty:"medium"},
   {id:40,question:"Which country has won the most UEFA European Championship titles?",options:{A:"Germany",B:"France",C:"Spain",D:"Italy"},answer:"C",difficulty:"medium"},
-  {id:41,question:"Which club is known as 'The Old Lady' (La Vecchia Signora)?",options:{A:"Inter Milan",B:"AC Milan",C:"Roma",D:"Juventus"},answer:"D",difficulty:"medium"},
+  {id:41,question:"Which club is known as 'The Old Lady'?",options:{A:"Inter Milan",B:"AC Milan",C:"Roma",D:"Juventus"},answer:"D",difficulty:"medium"},
   {id:42,question:"What is the name of Liverpool's home ground?",options:{A:"Goodison Park",B:"Anfield",C:"Elland Road",D:"St James' Park"},answer:"B",difficulty:"medium"},
   {id:43,question:"Which player won the Golden Ball at the 2014 World Cup?",options:{A:"Thomas Muller",B:"James Rodriguez",C:"Lionel Messi",D:"Bastian Schweinsteiger"},answer:"C",difficulty:"medium"},
   {id:44,question:"Which country beat Germany 7-1 in the 2014 World Cup semi-final?",options:{A:"Argentina",B:"Brazil",C:"France",D:"Netherlands"},answer:"B",difficulty:"medium"},
-  {id:45,question:"Who is the all-time top scorer for the English Premier League?",options:{A:"Frank Lampard",B:"Thierry Henry",C:"Wayne Rooney",D:"Andrew Cole"},answer:"C",difficulty:"medium"},
+  {id:45,question:"Who is the all-time top scorer in the English Premier League?",options:{A:"Frank Lampard",B:"Thierry Henry",C:"Wayne Rooney",D:"Andrew Cole"},answer:"C",difficulty:"medium"},
   {id:46,question:"Which club did Robert Lewandowski leave Bayern Munich to join in 2022?",options:{A:"PSG",B:"Barcelona",C:"Chelsea",D:"Juventus"},answer:"B",difficulty:"medium"},
   {id:47,question:"Which Spanish club is nicknamed 'Los Colchoneros'?",options:{A:"Sevilla",B:"Valencia",C:"Atletico Madrid",D:"Real Betis"},answer:"C",difficulty:"medium"},
-  {id:48,question:"How many goals did Miroslav Klose score in total World Cup appearances?",options:{A:"14",B:"15",C:"16",D:"17"},answer:"C",difficulty:"medium"},
+  {id:48,question:"How many goals did Miroslav Klose score in World Cup appearances?",options:{A:"14",B:"15",C:"16",D:"17"},answer:"C",difficulty:"medium"},
   {id:49,question:"Which player scored the winning penalty for Chelsea in the 2012 Champions League final?",options:{A:"Frank Lampard",B:"Didier Drogba",C:"Ashley Cole",D:"Juan Mata"},answer:"C",difficulty:"medium"},
-  {id:50,question:"Which club has won the most English top-flight titles combined?",options:{A:"Arsenal",B:"Liverpool",C:"Manchester United",D:"Chelsea"},answer:"C",difficulty:"medium"},
+  {id:50,question:"Which club has won the most English top-flight titles?",options:{A:"Arsenal",B:"Liverpool",C:"Manchester United",D:"Chelsea"},answer:"C",difficulty:"medium"},
   {id:51,question:"Who scored the fastest hat-trick in Premier League history (2 min 56 sec)?",options:{A:"Robbie Fowler",B:"Michael Owen",C:"Sadio Mane",D:"Alan Shearer"},answer:"C",difficulty:"medium"},
   {id:52,question:"Which country did Thierry Henry play for internationally?",options:{A:"Ivory Coast",B:"Senegal",C:"Belgium",D:"France"},answer:"D",difficulty:"medium"},
   {id:53,question:"Who won the UEFA Champions League in 2019?",options:{A:"Manchester City",B:"Ajax",C:"Liverpool",D:"Barcelona"},answer:"C",difficulty:"medium"},
   {id:54,question:"In what year did the Champions League rebrand from the European Cup?",options:{A:"1990",B:"1991",C:"1992",D:"1993"},answer:"C",difficulty:"medium"},
   {id:55,question:"Which club knocked Barcelona out of the 2021-22 Champions League group stage?",options:{A:"Bayern Munich",B:"Benfica",C:"Dynamo Kyiv",D:"Juventus"},answer:"A",difficulty:"medium"},
   {id:56,question:"Which nation did Ronaldinho play for?",options:{A:"Portugal",B:"Argentina",C:"Brazil",D:"Spain"},answer:"C",difficulty:"medium"},
-  {id:57,question:"Which city hosts the El Clasico derby matches?",options:{A:"Madrid only",B:"Barcelona only",C:"Both Madrid and Barcelona",D:"Neutral venue"},answer:"C",difficulty:"medium"},
-  {id:58,question:"Which African nation became the first to reach a World Cup quarter-final in 1990?",options:{A:"Nigeria",B:"Senegal",C:"Ghana",D:"Cameroon"},answer:"D",difficulty:"medium"},
-  {id:59,question:"Which country won the first Africa Cup of Nations in 1957?",options:{A:"Nigeria",B:"Egypt",C:"Ghana",D:"Sudan"},answer:"B",difficulty:"medium"},
-  {id:60,question:"Which club did Robert Lewandowski play for before joining Bayern Munich?",options:{A:"RB Leipzig",B:"Wolfsburg",C:"Borussia Dortmund",D:"Schalke"},answer:"C",difficulty:"medium"},
-  // HARD (30)
+  {id:57,question:"Which African nation became the first to reach a World Cup quarter-final in 1990?",options:{A:"Nigeria",B:"Senegal",C:"Ghana",D:"Cameroon"},answer:"D",difficulty:"medium"},
+  {id:58,question:"Which country won the first Africa Cup of Nations in 1957?",options:{A:"Nigeria",B:"Egypt",C:"Ghana",D:"Sudan"},answer:"B",difficulty:"medium"},
+  {id:59,question:"Which club did Robert Lewandowski play for before Bayern Munich?",options:{A:"RB Leipzig",B:"Wolfsburg",C:"Borussia Dortmund",D:"Schalke"},answer:"C",difficulty:"medium"},
+  {id:60,question:"Which city hosts the El Clasico derby matches?",options:{A:"Madrid only",B:"Barcelona only",C:"Both Madrid and Barcelona",D:"Neutral venue"},answer:"C",difficulty:"medium"},
   {id:61,question:"Who scored the 'Hand of God' goal in the 1986 World Cup?",options:{A:"Pele",B:"Zinedine Zidane",C:"Diego Maradona",D:"Michel Platini"},answer:"C",difficulty:"hard"},
   {id:62,question:"Which footballer has won the most Ballon d'Or awards?",options:{A:"Cristiano Ronaldo",B:"Ronaldinho",C:"Zinedine Zidane",D:"Lionel Messi"},answer:"D",difficulty:"hard"},
   {id:63,question:"Which club did Cristiano Ronaldo start his professional career at?",options:{A:"Manchester United",B:"Sporting CP",C:"Real Madrid",D:"Juventus"},answer:"B",difficulty:"hard"},
-  {id:64,question:"Who was the first footballer to win the FIFA World Cup as both a player and a coach?",options:{A:"Johan Cruyff",B:"Didier Deschamps",C:"Franz Beckenbauer",D:"Pele"},answer:"C",difficulty:"hard"},
-  {id:65,question:"Which player scored the most goals in a single Champions League season — 17 goals in 2013-14?",options:{A:"Lionel Messi",B:"Karim Benzema",C:"Cristiano Ronaldo",D:"Luis Suarez"},answer:"C",difficulty:"hard"},
-  {id:66,question:"Who scored the winning goal for Manchester United in the 1999 Champions League final?",options:{A:"Teddy Sheringham",B:"Ole Gunnar Solskjaer",C:"Peter Schmeichel",D:"Andy Cole"},answer:"B",difficulty:"hard"},
+  {id:64,question:"Who was the first to win the FIFA World Cup as both player and coach?",options:{A:"Johan Cruyff",B:"Didier Deschamps",C:"Franz Beckenbauer",D:"Pele"},answer:"C",difficulty:"hard"},
+  {id:65,question:"Who scored the most goals in a single Champions League season — 17 goals in 2013-14?",options:{A:"Lionel Messi",B:"Karim Benzema",C:"Cristiano Ronaldo",D:"Luis Suarez"},answer:"C",difficulty:"hard"},
+  {id:66,question:"Who scored the winner for Manchester United in the 1999 Champions League final?",options:{A:"Teddy Sheringham",B:"Ole Gunnar Solskjaer",C:"Peter Schmeichel",D:"Andy Cole"},answer:"B",difficulty:"hard"},
   {id:67,question:"Which player holds the record for most international goals in men's football?",options:{A:"Pele",B:"Ronaldo (Brazil)",C:"Cristiano Ronaldo",D:"Messi"},answer:"C",difficulty:"hard"},
-  {id:68,question:"Just Fontaine holds the record for most goals in a single World Cup. How many in 1958?",options:{A:"11",B:"12",C:"13",D:"14"},answer:"C",difficulty:"hard"},
+  {id:68,question:"Just Fontaine scored how many goals in the 1958 World Cup?",options:{A:"11",B:"12",C:"13",D:"14"},answer:"C",difficulty:"hard"},
   {id:69,question:"Which club won the treble (league, FA Cup, Champions League) in 1998-99?",options:{A:"Barcelona",B:"Arsenal",C:"Manchester United",D:"Chelsea"},answer:"C",difficulty:"hard"},
   {id:70,question:"Who was the first player to score 100 Champions League goals?",options:{A:"Lionel Messi",B:"Raul",C:"Cristiano Ronaldo",D:"Karim Benzema"},answer:"C",difficulty:"hard"},
   {id:71,question:"Who scored the fastest goal in World Cup history (10.8 seconds) in 2002?",options:{A:"Ronaldo",B:"Rivaldo",C:"Hakan Sukur",D:"Emile Heskey"},answer:"C",difficulty:"hard"},
   {id:72,question:"Who was the first player to win the Champions League with three different clubs?",options:{A:"Clarence Seedorf",B:"Roberto Carlos",C:"Claude Makelele",D:"Didier Deschamps"},answer:"A",difficulty:"hard"},
   {id:73,question:"Which goalkeeper holds the record for most clean sheets in Premier League history?",options:{A:"Peter Schmeichel",B:"Petr Cech",C:"David James",D:"Edwin van der Sar"},answer:"B",difficulty:"hard"},
-  {id:74,question:"Which player scored a hat-trick in the 2018 World Cup group stage against Portugal?",options:{A:"Antoine Griezmann",B:"Harry Kane",C:"Cristiano Ronaldo",D:"Romelu Lukaku"},answer:"C",difficulty:"hard"},
+  {id:74,question:"Who scored a hat-trick in the 2018 World Cup group stage against Portugal?",options:{A:"Antoine Griezmann",B:"Harry Kane",C:"Cristiano Ronaldo",D:"Romelu Lukaku"},answer:"C",difficulty:"hard"},
   {id:75,question:"Which player is nicknamed 'The Divine Ponytail' (Il Divin Codino)?",options:{A:"Francesco Totti",B:"Roberto Baggio",C:"Alessandro Del Piero",D:"Gianfranco Zola"},answer:"B",difficulty:"hard"},
   {id:76,question:"Who scored the famous 'Scorpion Kick' save for Colombia against England in 1995?",options:{A:"Carlos Valderrama",B:"Faustino Asprilla",C:"Rene Higuita",D:"Freddy Rincon"},answer:"C",difficulty:"hard"},
   {id:77,question:"Which player has won the most FA Cup winner's medals (7)?",options:{A:"Frank Lampard",B:"Ryan Giggs",C:"Ashley Cole",D:"John Terry"},answer:"C",difficulty:"hard"},
   {id:78,question:"Who holds the record for most goals in a single La Liga season — 50 goals in 2011-12?",options:{A:"Cristiano Ronaldo",B:"Lionel Messi",C:"Luis Suarez",D:"Karim Benzema"},answer:"B",difficulty:"hard"},
   {id:79,question:"Which Dutch player famously refused to play for Real Madrid out of principle?",options:{A:"Dennis Bergkamp",B:"Johan Cruyff",C:"Marco van Basten",D:"Ruud Gullit"},answer:"B",difficulty:"hard"},
   {id:80,question:"Who scored the winning goal in extra time in the 2014 World Cup final?",options:{A:"Thomas Muller",B:"Toni Kroos",C:"Mario Gotze",D:"Miroslav Klose"},answer:"C",difficulty:"hard"},
-  {id:81,question:"Which club was legendary goalkeeper Lev Yashin associated with throughout his career?",options:{A:"Spartak Moscow",B:"Lokomotiv Moscow",C:"Dynamo Moscow",D:"CSKA Moscow"},answer:"C",difficulty:"hard"},
+  {id:81,question:"Which club was legendary goalkeeper Lev Yashin associated with?",options:{A:"Spartak Moscow",B:"Lokomotiv Moscow",C:"Dynamo Moscow",D:"CSKA Moscow"},answer:"C",difficulty:"hard"},
   {id:82,question:"In what year did FIFA introduce the offside rule change that revolutionised tactics?",options:{A:"1920",B:"1925",C:"1930",D:"1935"},answer:"B",difficulty:"hard"},
   {id:83,question:"Who scored the first ever Premier League hat-trick?",options:{A:"Alan Shearer",B:"Eric Cantona",C:"Mick Quinn",D:"Les Ferdinand"},answer:"A",difficulty:"hard"},
   {id:84,question:"Which player holds the record for most assists in UEFA Champions League history?",options:{A:"Lionel Messi",B:"Cristiano Ronaldo",C:"Ryan Giggs",D:"Cesc Fabregas"},answer:"A",difficulty:"hard"},
   {id:85,question:"In 1970 Brazil won the Jules Rimet Trophy permanently after how many World Cup wins?",options:{A:"2",B:"3",C:"4",D:"5"},answer:"B",difficulty:"hard"},
   {id:86,question:"Which country did Andres Iniesta help win both the 2010 World Cup and Euro 2008 and 2012?",options:{A:"Portugal",B:"Argentina",C:"Spain",D:"France"},answer:"C",difficulty:"hard"},
-  {id:87,question:"Who is the only player to have won the FIFA World Cup, UEFA Champions League, and Olympic gold?",options:{A:"Ronaldo (Brazil)",B:"Pele",C:"Cafu",D:"Roberto Carlos"},answer:"A",difficulty:"hard"},
+  {id:87,question:"Who is the only player to win the FIFA World Cup, Champions League, and Olympic gold?",options:{A:"Ronaldo (Brazil)",B:"Pele",C:"Cafu",D:"Roberto Carlos"},answer:"A",difficulty:"hard"},
   {id:88,question:"Which manager won the Champions League with both Juventus and AC Milan?",options:{A:"Jose Mourinho",B:"Carlo Ancelotti",C:"Fabio Capello",D:"Marcello Lippi"},answer:"B",difficulty:"hard"},
   {id:89,question:"Who holds the record for most goals in Bundesliga history?",options:{A:"Gerd Muller",B:"Robert Lewandowski",C:"Jurgen Klinsmann",D:"Rudi Voller"},answer:"B",difficulty:"hard"},
   {id:90,question:"Which player scored in every round of the 1998 World Cup for France including the final?",options:{A:"David Trezeguet",B:"Thierry Henry",C:"Zinedine Zidane",D:"Youri Djorkaeff"},answer:"C",difficulty:"hard"},
 ];
 
-// Prize ladder for full journey
 const PRIZE_LADDER=[1000,2000,3000,5000,10000,20000,40000,80000,160000,320000,640000,1250000,2500000,5000000,10000000];
+const SAFE_HAVENS_JOURNEY=[4,9];
+const TIMER_SECONDS=30;
 
-// Random pick helper
 function pickRandom(arr,n){
-  const copy=[...arr];
-  for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]];}
-  return copy.slice(0,n);
+  const c=[...arr];
+  for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}
+  return c.slice(0,n);
 }
 
-// Build 15 unique questions with correct prize ladder values
 function buildGameQuestions(mode){
   let picked;
   if(mode==='journey'){
-    const easy  =pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='easy'),5);
-    const medium=pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='medium'),6);
-    const hard  =pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='hard'),4);
-    picked=[...easy,...medium,...hard];
+    picked=[
+      ...pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='easy'),5),
+      ...pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='medium'),6),
+      ...pickRandom(ALL_QUESTIONS.filter(q=>q.difficulty==='hard'),4)
+    ];
   } else {
     const pool=ALL_QUESTIONS.filter(q=>q.difficulty===mode);
-    const n={easy:5,medium:6,hard:4}[mode]||5;
-    picked=pickRandom(pool,Math.min(n,pool.length));
+    picked=pickRandom(pool,Math.min({easy:5,medium:6,hard:4}[mode]||5,pool.length));
   }
-  // Assign prize ladder values
   picked.forEach((q,i)=>{ q.prize=PRIZE_LADDER[i]||PRIZE_LADDER[PRIZE_LADDER.length-1]; });
   return picked;
 }
 
-const SAFE_HAVENS_JOURNEY=[4,9];
-const TIMER_SECONDS=30;
-
-// ── AUDIO (Web Audio API — no external files needed) ──
+// ═══════════════════════════════════════════
+//  AUDIO
+// ═══════════════════════════════════════════
 let audioCtx=null;
 function getCtx(){
   if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
   if(audioCtx.state==='suspended') audioCtx.resume();
   return audioCtx;
 }
-
 function playDrumRoll(duration=1.8){
-  const ctx=getCtx();
-  const beats=Math.floor(duration*14);
+  const ctx=getCtx(),beats=Math.floor(duration*14);
   for(let i=0;i<beats;i++){
     const t=ctx.currentTime+(i*(duration/beats));
     const sz=Math.floor(ctx.sampleRate*0.035);
     const buf=ctx.createBuffer(1,sz,ctx.sampleRate);
     const d=buf.getChannelData(0);
     for(let j=0;j<sz;j++) d[j]=(Math.random()*2-1);
-    const src=ctx.createBufferSource(); src.buffer=buf;
+    const src=ctx.createBufferSource();src.buffer=buf;
     const gain=ctx.createGain();
-    const speed=1+(i/beats)*2;
-    gain.gain.setValueAtTime(0.15*speed,t);
+    gain.gain.setValueAtTime(0.15*(1+(i/beats)*2),t);
     gain.gain.exponentialRampToValueAtTime(0.001,t+0.035);
-    const f=ctx.createBiquadFilter();
-    f.type='bandpass'; f.frequency.value=700+i*55; f.Q.value=0.9;
-    src.connect(f); f.connect(gain); gain.connect(ctx.destination);
-    src.start(t); src.stop(t+0.04);
+    const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=700+i*55;f.Q.value=0.9;
+    src.connect(f);f.connect(gain);gain.connect(ctx.destination);src.start(t);src.stop(t+0.04);
   }
-  // crash cymbal at end
-  const ct=ctx.currentTime+duration-0.05;
-  const csz=Math.floor(ctx.sampleRate*0.2);
-  const cbuf=ctx.createBuffer(1,csz,ctx.sampleRate);
-  const cd=cbuf.getChannelData(0);
+  const ct=ctx.currentTime+duration-0.05,csz=Math.floor(ctx.sampleRate*0.2);
+  const cbuf=ctx.createBuffer(1,csz,ctx.sampleRate);const cd=cbuf.getChannelData(0);
   for(let j=0;j<csz;j++) cd[j]=(Math.random()*2-1);
-  const csrc=ctx.createBufferSource(); csrc.buffer=cbuf;
-  const cg=ctx.createGain(); cg.gain.setValueAtTime(0.5,ct); cg.gain.exponentialRampToValueAtTime(0.001,ct+0.2);
-  const cf=ctx.createBiquadFilter(); cf.type='highpass'; cf.frequency.value=3000;
-  csrc.connect(cf); cf.connect(cg); cg.connect(ctx.destination);
-  csrc.start(ct); csrc.stop(ct+0.25);
+  const csrc=ctx.createBufferSource();csrc.buffer=cbuf;
+  const cg=ctx.createGain();cg.gain.setValueAtTime(0.5,ct);cg.gain.exponentialRampToValueAtTime(0.001,ct+0.2);
+  const cf=ctx.createBiquadFilter();cf.type='highpass';cf.frequency.value=3000;
+  csrc.connect(cf);cf.connect(cg);cg.connect(ctx.destination);csrc.start(ct);csrc.stop(ct+0.25);
 }
-
 function playCorrect(){
   const ctx=getCtx();
   [523,659,784,1047].forEach((f,i)=>{
     const t=ctx.currentTime+i*0.11;
-    const o=ctx.createOscillator(); const g=ctx.createGain();
-    o.type='sine'; o.frequency.value=f;
-    g.gain.setValueAtTime(0.28,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
-    o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+0.3);
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type='sine';o.frequency.value=f;
+    g.gain.setValueAtTime(0.28,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.28);
+    o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+0.3);
   });
 }
-
 function playWrong(){
   const ctx=getCtx();
-  const o=ctx.createOscillator(); const g=ctx.createGain();
-  o.type='sawtooth'; o.frequency.value=110;
-  g.gain.setValueAtTime(0.4,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);
-  o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.65);
+  const o=ctx.createOscillator(),g=ctx.createGain();
+  o.type='sawtooth';o.frequency.value=110;
+  g.gain.setValueAtTime(0.4,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.6);
+  o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+0.65);
 }
-
 function playTick(urgent=false){
   const ctx=getCtx();
-  const o=ctx.createOscillator(); const g=ctx.createGain();
-  o.type='square'; o.frequency.value=urgent?900:600;
-  g.gain.setValueAtTime(urgent?0.12:0.07,ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.05);
-  o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime+0.06);
+  const o=ctx.createOscillator(),g=ctx.createGain();
+  o.type='square';o.frequency.value=urgent?900:600;
+  g.gain.setValueAtTime(urgent?0.12:0.07,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.05);
+  o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+0.06);
+}
+function playPhoneRing(){
+  const ctx=getCtx();
+  [880,880,0,880,880,0,660].forEach((f,i)=>{
+    if(!f) return;
+    const t=ctx.currentTime+i*0.18;
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.type='sine';o.frequency.value=f;
+    g.gain.setValueAtTime(0.2,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
+    o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+0.18);
+  });
+}
+function playAudienceMurmur(){
+  const ctx=getCtx();
+  for(let i=0;i<8;i++){
+    const t=ctx.currentTime+i*0.12;
+    const sz=Math.floor(ctx.sampleRate*0.1);
+    const buf=ctx.createBuffer(1,sz,ctx.sampleRate);
+    const d=buf.getChannelData(0);
+    for(let j=0;j<sz;j++) d[j]=(Math.random()*2-1)*0.3;
+    const src=ctx.createBufferSource();src.buffer=buf;
+    const g=ctx.createGain();g.gain.setValueAtTime(0.06,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.1);
+    const f=ctx.createBiquadFilter();f.type='lowpass';f.frequency.value=800;
+    src.connect(f);f.connect(g);g.connect(ctx.destination);src.start(t);src.stop(t+0.12);
+  }
 }
 
-// ── STATE ──
+// ═══════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════
 let state={
   playerName:"",mode:"journey",
   questions:[],currentIndex:0,
@@ -512,169 +587,134 @@ let state={
   timerInterval:null,timeLeft:TIMER_SECONDS,
 };
 
-// ── NAVIGATION ──
+// ═══════════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════════
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
-
 function selectMode(mode,el){
   document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   state.mode=mode;
 }
 
-// ── START ──
+// ═══════════════════════════════════════════
+//  START GAME
+// ═══════════════════════════════════════════
 function startGame(){
   const name=document.getElementById('player-name-input').value.trim();
   if(!name){document.getElementById('player-name-input').focus();return;}
   state.playerName=name;
-
   state.questions=buildGameQuestions(state.mode);
   state.safeHavenIndices=state.mode==='journey'?SAFE_HAVENS_JOURNEY:[];
-
-  state.currentIndex=0; state.prizeWon=0; state.safeHaven=0;
+  state.currentIndex=0;state.prizeWon=0;state.safeHaven=0;
   state.lifelines={fifty:true,poll:true,phone:true};
-  state.answered=false; state.gameOver=false;
-
-  buildLadder();
-  showScreen('screen-game');
-  showDrumRoll(0);
+  state.answered=false;state.gameOver=false;
+  buildLadder();showScreen('screen-game');showDrumRoll(0);
 }
 
-function shuffle(arr){
-  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
-  return arr;
-}
-
-// ── DRUM ROLL ──
+// ═══════════════════════════════════════════
+//  DRUM ROLL
+// ═══════════════════════════════════════════
 function showDrumRoll(index){
-  const q=state.questions[index];
-  if(!q) return;
+  const q=state.questions[index];if(!q)return;
   const ov=document.getElementById('drumroll-overlay');
   document.getElementById('drumroll-qnum').textContent=`QUESTION ${index+1}`;
   document.getElementById('drumroll-prize-amt').textContent=fmt(q.prize);
-  ov.classList.add('show');
-  playDrumRoll(1.8);
-  setTimeout(()=>{ov.classList.remove('show'); renderQuestion();},2000);
+  ov.classList.add('show');playDrumRoll(1.8);
+  setTimeout(()=>{ov.classList.remove('show');renderQuestion();},2000);
 }
 
-// ── LADDER ──
+// ═══════════════════════════════════════════
+//  LADDER
+// ═══════════════════════════════════════════
 function buildLadder(){
-  const wrap=document.getElementById('ladder-steps');
-  wrap.innerHTML='';
+  const wrap=document.getElementById('ladder-steps');wrap.innerHTML='';
   state.questions.forEach((_,i)=>{
     const el=document.createElement('div');
     el.className='ladder-step'+(state.safeHavenIndices.includes(i)?' safe':'');
-    el.id=`step-${i}`; el.textContent=`Q${i+1}`;
-    wrap.appendChild(el);
-  });
-  updateLadder();
+    el.id=`step-${i}`;el.textContent=`Q${i+1}`;wrap.appendChild(el);
+  });updateLadder();
 }
-
 function updateLadder(){
   state.questions.forEach((_,i)=>{
-    const el=document.getElementById(`step-${i}`);
-    if(!el) return;
+    const el=document.getElementById(`step-${i}`);if(!el)return;
     el.classList.remove('current','completed');
     if(i<state.currentIndex) el.classList.add('completed');
     else if(i===state.currentIndex) el.classList.add('current');
   });
 }
 
-// ── TIMER ──
+// ═══════════════════════════════════════════
+//  TIMER
+// ═══════════════════════════════════════════
 function startTimer(){
-  clearInterval(state.timerInterval);
-  state.timeLeft=TIMER_SECONDS;
-  updateTimerUI();
+  clearInterval(state.timerInterval);state.timeLeft=TIMER_SECONDS;updateTimerUI();
   state.timerInterval=setInterval(()=>{
     if(state.answered||state.gameOver){clearInterval(state.timerInterval);return;}
-    state.timeLeft--;
-    updateTimerUI();
-    playTick(state.timeLeft<=10);
+    state.timeLeft--;updateTimerUI();playTick(state.timeLeft<=10);
     if(state.timeLeft<=0){clearInterval(state.timerInterval);timeUp();}
   },1000);
 }
-
 function stopTimer(){clearInterval(state.timerInterval);}
-
 function updateTimerUI(){
   const pct=(state.timeLeft/TIMER_SECONDS)*100;
-  const bar=document.getElementById('timer-bar');
-  const count=document.getElementById('timer-count');
-  bar.style.width=pct+'%';
-  count.textContent=state.timeLeft;
-  if(state.timeLeft<=10){bar.style.background='var(--red)';count.classList.add('warning');}
-  else if(state.timeLeft<=20){bar.style.background='var(--gold)';count.classList.remove('warning');}
-  else{bar.style.background='var(--green2)';count.classList.remove('warning');}
+  document.getElementById('timer-bar').style.width=pct+'%';
+  document.getElementById('timer-count').textContent=state.timeLeft;
+  if(state.timeLeft<=10){document.getElementById('timer-bar').style.background='var(--red)';document.getElementById('timer-count').classList.add('warning');}
+  else if(state.timeLeft<=20){document.getElementById('timer-bar').style.background='var(--gold)';document.getElementById('timer-count').classList.remove('warning');}
+  else{document.getElementById('timer-bar').style.background='var(--green2)';document.getElementById('timer-count').classList.remove('warning');}
 }
-
 function timeUp(){
-  if(state.answered||state.gameOver) return;
-  state.answered=true;
-  disableOptions();
+  if(state.answered||state.gameOver)return;
+  state.answered=true;disableOptions();
   document.getElementById(`opt-${state.questions[state.currentIndex].answer}`).classList.add('correct');
-  playWrong();
-  setTimeout(()=>showResult(false,'time'),1400);
+  playWrong();setTimeout(()=>showResult(false,'time'),1400);
 }
 
-// ── RENDER QUESTION ──
+// ═══════════════════════════════════════════
+//  RENDER QUESTION
+// ═══════════════════════════════════════════
 function renderQuestion(){
-  const q=state.questions[state.currentIndex];
-  if(!q) return;
+  const q=state.questions[state.currentIndex];if(!q)return;
   state.answered=false;
   document.getElementById('lifeline-result').style.display='none';
-
   document.getElementById('hdr-name').textContent=state.playerName;
-  const ml={journey:'Full Journey 🚀',easy:'Easy Mode 🟢',medium:'Medium Mode 🟡',hard:'Hard Mode 🔴'};
-  document.getElementById('hdr-mode').textContent=ml[state.mode];
+  document.getElementById('hdr-mode').textContent={journey:'Full Journey 🚀',easy:'Easy Mode 🟢',medium:'Medium Mode 🟡',hard:'Hard Mode 🔴'}[state.mode];
   document.getElementById('hdr-prize').textContent=fmt(state.prizeWon);
-
   const pct=Math.round((state.currentIndex/state.questions.length)*100);
   document.getElementById('prog-label').textContent=`Question ${state.currentIndex+1} of ${state.questions.length}`;
   document.getElementById('prog-pct').textContent=pct+'%';
   document.getElementById('prog-fill').style.width=pct+'%';
-
-  if(state.safeHaven>0){
-    document.getElementById('safe-badge').style.display='inline-flex';
-    document.getElementById('safe-amount').textContent=state.safeHaven.toLocaleString('en-IN');
-  } else {
-    document.getElementById('safe-badge').style.display='none';
-  }
-
+  if(state.safeHaven>0){document.getElementById('safe-badge').style.display='inline-flex';document.getElementById('safe-amount').textContent=state.safeHaven.toLocaleString('en-IN');}
+  else document.getElementById('safe-badge').style.display='none';
   document.getElementById('q-num').textContent=`Q${state.currentIndex+1} · ${capitalize(q.difficulty)} · ${fmt(q.prize)}`;
   document.getElementById('q-text').textContent=q.question;
-
-  const grid=document.getElementById('options-grid');
-  grid.innerHTML='';
+  const grid=document.getElementById('options-grid');grid.innerHTML='';
   ['A','B','C','D'].forEach(key=>{
-    const btn=document.createElement('button');
-    btn.className='option-btn'; btn.id=`opt-${key}`;
+    const btn=document.createElement('button');btn.className='option-btn';btn.id=`opt-${key}`;
     btn.innerHTML=`<span class="option-key">${key}</span><span class="option-text">${q.options[key]}</span>`;
-    btn.onclick=()=>selectAnswer(key);
-    grid.appendChild(btn);
+    btn.onclick=()=>selectAnswer(key);grid.appendChild(btn);
   });
-
   document.getElementById('ll-5050').disabled=!state.lifelines.fifty;
   document.getElementById('ll-poll').disabled=!state.lifelines.poll;
   document.getElementById('ll-phone').disabled=!state.lifelines.phone;
-
-  updateLadder();
-  startTimer();
+  updateLadder();startTimer();
 }
 
-// ── ANSWER ──
+// ═══════════════════════════════════════════
+//  ANSWER
+// ═══════════════════════════════════════════
 function selectAnswer(key){
-  if(state.answered||state.gameOver) return;
-  state.answered=true;
-  stopTimer();
-  disableOptions();
+  if(state.answered||state.gameOver)return;
+  state.answered=true;stopTimer();disableOptions();
   const q=state.questions[state.currentIndex];
   setTimeout(()=>{
     if(key===q.answer){
       document.getElementById(`opt-${key}`).classList.add('correct');
-      playCorrect();
-      state.prizeWon=q.prize;
+      playCorrect();state.prizeWon=q.prize;
       document.getElementById('hdr-prize').textContent=fmt(state.prizeWon);
       if(state.safeHavenIndices.includes(state.currentIndex)) state.safeHaven=q.prize;
       setTimeout(()=>{
@@ -685,62 +725,168 @@ function selectAnswer(key){
     } else {
       document.getElementById(`opt-${key}`).classList.add('wrong');
       document.getElementById(`opt-${q.answer}`).classList.add('correct');
-      playWrong();
-      setTimeout(()=>showResult(false),1400);
+      playWrong();setTimeout(()=>showResult(false),1400);
     }
   },500);
 }
+function disableOptions(){['A','B','C','D'].forEach(k=>{const b=document.getElementById(`opt-${k}`);if(b)b.disabled=true;});}
 
-function disableOptions(){
-  ['A','B','C','D'].forEach(k=>{const b=document.getElementById(`opt-${k}`);if(b)b.disabled=true;});
+// ═══════════════════════════════════════════
+//  LIFELINES WITH ANIMATIONS
+// ═══════════════════════════════════════════
+function showLifelineAnim(icon, title, msg, duration, callback){
+  const ov=document.getElementById('ll-anim-overlay');
+  document.getElementById('ll-anim-icon').innerHTML=icon;
+  document.getElementById('ll-anim-title').textContent=title;
+  document.getElementById('ll-anim-msg').textContent=msg;
+  document.getElementById('ll-typewriter').textContent='';
+  ov.classList.add('show');
+  setTimeout(()=>{ov.classList.remove('show');callback();},duration);
 }
 
-// ── LIFELINES ──
+function typewriterEffect(text, elementId, speed=40){
+  const el=document.getElementById(elementId);
+  el.textContent='';let i=0;
+  const interval=setInterval(()=>{
+    el.textContent+=text[i];i++;
+    if(i>=text.length) clearInterval(interval);
+  },speed);
+}
+
 function useLifeline(type){
-  if(state.answered||state.gameOver) return;
+  if(state.answered||state.gameOver)return;
   const q=state.questions[state.currentIndex];
   const res=document.getElementById('lifeline-result');
 
+  // ── 50/50 ──
   if(type==='fifty'&&state.lifelines.fifty){
     state.lifelines.fifty=false;
     document.getElementById('ll-5050').disabled=true;
-    const wrong=['A','B','C','D'].filter(k=>k!==q.answer);
-    const keep=wrong[Math.floor(Math.random()*wrong.length)];
-    wrong.filter(k=>k!==keep).forEach(k=>{const b=document.getElementById(`opt-${k}`);if(b){b.classList.add('eliminated');b.disabled=true;}});
-    res.innerHTML='<strong>✂️ 50/50:</strong> Two wrong options removed!';
-    res.style.display='block';
-  } else if(type==='poll'&&state.lifelines.poll){
+    stopTimer();
+
+    showLifelineAnim('✂️','50 / 50','Removing two wrong options...',2800,()=>{
+      // Flicker animation then eliminate
+      const wrong=['A','B','C','D'].filter(k=>k!==q.answer);
+      const keep=wrong[Math.floor(Math.random()*wrong.length)];
+      const toRemove=wrong.filter(k=>k!==keep);
+
+      toRemove.forEach((k,idx)=>{
+        const btn=document.getElementById(`opt-${k}`);
+        if(!btn)return;
+        let flickers=0;
+        const flickerInterval=setInterval(()=>{
+          btn.classList.toggle('flickering');flickers++;
+          if(flickers>=8){clearInterval(flickerInterval);btn.classList.add('eliminated');btn.disabled=true;}
+        },150);
+      });
+
+      res.innerHTML='<strong>✂️ 50/50:</strong> Two wrong options removed!';
+      res.style.display='block';
+      startTimer();
+    });
+  }
+
+  // ── AUDIENCE POLL ──
+  else if(type==='poll'&&state.lifelines.poll){
     state.lifelines.poll=false;
     document.getElementById('ll-poll').disabled=true;
-    const cp=Math.floor(Math.random()*31)+45,rem=100-cp;
-    const wrong=['A','B','C','D'].filter(k=>k!==q.answer);
-    let r1=Math.floor(Math.random()*(rem-10))+5,r2=Math.floor(Math.random()*(rem-r1-5))+5,r3=rem-r1-r2;
-    const pcts={};wrong.forEach((k,i)=>pcts[k]=[r1,r2,r3][i]);pcts[q.answer]=cp;
-    let html='<strong>👥 Audience Poll:</strong><br/><br/>';
-    ['A','B','C','D'].forEach(k=>{html+=`<div class="poll-row"><span class="poll-key">${k}</span><div class="poll-bar-wrap"><div class="poll-bar" style="width:${pcts[k]}%"></div></div><span class="poll-pct">${pcts[k]}%</span></div>`;});
-    res.innerHTML=html;res.style.display='block';
-  } else if(type==='phone'&&state.lifelines.phone){
+    stopTimer();
+    playAudienceMurmur();
+
+    const ov=document.getElementById('ll-anim-overlay');
+    document.getElementById('ll-anim-icon').innerHTML='👥';
+    document.getElementById('ll-anim-title').textContent='AUDIENCE POLL';
+    document.getElementById('ll-anim-msg').textContent='The audience is voting...';
+    document.getElementById('ll-typewriter').textContent='';
+    ov.classList.add('show');
+
+    setTimeout(()=>{
+      ov.classList.remove('show');
+
+      // Build poll data
+      const cp=Math.floor(Math.random()*31)+45,rem=100-cp;
+      const wrong=['A','B','C','D'].filter(k=>k!==q.answer);
+      let r1=Math.floor(Math.random()*(rem-10))+5;
+      let r2=Math.floor(Math.random()*(rem-r1-5))+5;
+      let r3=rem-r1-r2;
+      const pcts={};wrong.forEach((k,i)=>pcts[k]=[r1,r2,r3][i]);pcts[q.answer]=cp;
+
+      let html='<strong>👥 Audience Poll Results:</strong><br/><br/>';
+      ['A','B','C','D'].forEach(k=>{
+        html+=`<div class="poll-row">
+          <span class="poll-key">${k}</span>
+          <div class="poll-bar-wrap"><div class="poll-bar" id="pb-${k}" style="width:0%"></div></div>
+          <span class="poll-pct" id="pp-${k}" style="opacity:0">${pcts[k]}%</span>
+        </div>`;
+      });
+      res.innerHTML=html;res.style.display='block';
+
+      // Animate bars one by one with suspense
+      ['A','B','C','D'].forEach((k,i)=>{
+        setTimeout(()=>{
+          const bar=document.getElementById(`pb-${k}`);
+          const pct=document.getElementById(`pp-${k}`);
+          if(bar) bar.style.width=pcts[k]+'%';
+          setTimeout(()=>{if(pct) pct.style.opacity='1';},1000);
+        },i*400);
+      });
+
+      startTimer();
+    },3000);
+  }
+
+  // ── PHONE A FRIEND ──
+  else if(type==='phone'&&state.lifelines.phone){
     state.lifelines.phone=false;
     document.getElementById('ll-phone').disabled=true;
+    stopTimer();
+
     const friends=["Rahul (World Cup buff)","Priya (PL expert)","Carlos (La Liga fan)","Arjun (Stats geek)","Sofia (UEFA master)"];
     const friend=friends[Math.floor(Math.random()*friends.length)];
     const gc=Math.random()<0.8;
     const sug=gc?q.answer:['A','B','C','D'].filter(k=>k!==q.answer)[Math.floor(Math.random()*3)];
-    const conf=gc?(Math.random()<0.5?'100% sure':'pretty confident'):'not totally sure but maybe';
-    res.innerHTML=`<strong>📞 ${friend}:</strong> "I'm ${conf} — <strong>${sug}) ${q.options[sug]}</strong>."`;
-    res.style.display='block';
+    const conf=gc?(Math.random()<0.5?'100% sure it is':'pretty confident the answer is'):'not totally sure, but maybe';
+    const friendMsg=`"Hey! I'm ${conf} ${sug}) ${q.options[sug]}. Go with it!"`;
+
+    const ov=document.getElementById('ll-anim-overlay');
+    document.getElementById('ll-anim-icon').innerHTML='<div class="phone-ring">📞</div>';
+    document.getElementById('ll-anim-title').textContent='CALLING...';
+    document.getElementById('ll-anim-msg').textContent=friend;
+    document.getElementById('ll-typewriter').textContent='';
+    ov.classList.add('show');
+    playPhoneRing();
+
+    // After 2.5s show "Connected" then typewriter
+    setTimeout(()=>{
+      document.getElementById('ll-anim-icon').innerHTML='📱';
+      document.getElementById('ll-anim-title').textContent='CONNECTED!';
+      document.getElementById('ll-anim-msg').textContent=friend+' says:';
+      typewriterEffect(friendMsg,'ll-typewriter',35);
+    },2500);
+
+    setTimeout(()=>{
+      ov.classList.remove('show');
+      res.innerHTML=`<strong>📞 ${friend}:</strong><br/>${friendMsg}`;
+      res.style.display='block';
+      startTimer();
+    },6000);
   }
 }
 
-// ── QUIT ──
+// ═══════════════════════════════════════════
+//  QUIT
+// ═══════════════════════════════════════════
 function quitGame(){
-  if(state.gameOver) return;
+  if(state.gameOver)return;
   stopTimer();state.gameOver=true;showResult('quit');
 }
 
-// ── RESULT ──
+// ═══════════════════════════════════════════
+//  RESULT
+// ═══════════════════════════════════════════
 function showResult(outcome,reason=''){
   stopTimer();state.gameOver=true;
+  const finalPrize=outcome===true?state.prizeWon:state.safeHaven;
   if(outcome===true){
     document.getElementById('res-icon').textContent='🏆';
     document.getElementById('res-title').textContent='CHAMPION!';
@@ -761,36 +907,67 @@ function showResult(outcome,reason=''){
     document.getElementById('res-prize').textContent=fmt(state.safeHaven);
     document.getElementById('res-msg').textContent=`${reason==='time'?'Time ran out':'Tough luck'}, ${state.playerName}! Safe haven: ${fmt(state.safeHaven)}.`;
   }
-  saveScore(state.playerName,outcome===true?state.prizeWon:state.safeHaven);
+  // Save to both Supabase (global) and localStorage (local)
+  saveScoreGlobal(state.playerName, finalPrize, state.mode);
+  saveScoreLocal(state.playerName, finalPrize, state.mode);
   document.getElementById('result-overlay').classList.add('show');
 }
-
 function closeResult(){document.getElementById('result-overlay').classList.remove('show');}
 function playAgain(){closeResult();showScreen('screen-intro');}
 
-// ── LEADERBOARD ──
-function saveScore(name,prize){
-  if(!name||prize===0) return;
-  let lb=JSON.parse(localStorage.getItem('football_kbc_lb')||'[]');
-  lb.push({name,prize,date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})});
-  lb=lb.sort((a,b)=>b.prize-a.prize).slice(0,10);
-  localStorage.setItem('football_kbc_lb',JSON.stringify(lb));
+// ═══════════════════════════════════════════
+//  LOCAL LEADERBOARD (fallback)
+// ═══════════════════════════════════════════
+function saveScoreLocal(name,prize,mode){
+  if(!name||prize===0)return;
+  let lb=JSON.parse(localStorage.getItem('goaliq_millionaire_lb')||'[]');
+  lb.push({name,score:prize,mode,date:new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})});
+  lb=lb.sort((a,b)=>b.score-a.score).slice(0,20);
+  localStorage.setItem('goaliq_millionaire_lb',JSON.stringify(lb));
 }
 
-function renderLeaderboard(){
-  const scores=JSON.parse(localStorage.getItem('football_kbc_lb')||'[]');
+// ═══════════════════════════════════════════
+//  LEADERBOARD RENDER
+// ═══════════════════════════════════════════
+async function renderLeaderboard(tab='global'){
+  // Update tab styles
+  document.getElementById('tab-global').classList.toggle('active',tab==='global');
+  document.getElementById('tab-local').classList.toggle('active',tab==='local');
+
+  const content=document.getElementById('lb-content');
   const medals=['🥇','🥈','🥉'];
-  let html='';
-  if(!scores.length){html='<p class="lb-empty">No scores yet. Be the first! ⚽</p>';}
-  else{
-    html=`<table class="lb-table"><thead><tr><th>Rank</th><th>Name</th><th>Prize</th><th>Date</th></tr></thead><tbody>`;
-    scores.forEach((s,i)=>{html+=`<tr><td class="lb-rank">${medals[i]||'#'+(i+1)}</td><td>${s.name}</td><td class="lb-prize">${fmt(s.prize)}</td><td style="color:var(--text-dim);font-size:13px">${s.date}</td></tr>`;});
+
+  if(tab==='global'){
+    content.innerHTML='<p class="lb-loading">⏳ Loading global scores...</p>';
+    const scores=await fetchGlobalLeaderboard();
+
+    if(!scores){
+      // Supabase not configured — show message
+      content.innerHTML=`<p class="lb-empty">🔧 Global leaderboard coming soon!<br/><br/>Add your Supabase config to enable global scores.<br/>Switch to "My Scores" tab to see local games.</p>`;
+      return;
+    }
+    if(!scores.length){content.innerHTML='<p class="lb-empty">No scores yet. Be the first! ⚽</p>';return;}
+    let html=`<table class="lb-table"><thead><tr><th>Rank</th><th>Name</th><th>Prize</th><th>Mode</th><th>Date</th></tr></thead><tbody>`;
+    scores.forEach((s,i)=>{
+      html+=`<tr><td class="lb-rank">${medals[i]||'#'+(i+1)}</td><td>${s.name}</td><td class="lb-prize">${fmt(s.score)}</td><td style="font-size:12px;color:var(--text-dim)">${s.mode||'-'}</td><td style="color:var(--text-dim);font-size:13px">${s.date}</td></tr>`;
+    });
     html+=`</tbody></table>`;
+    content.innerHTML=html;
+  } else {
+    const scores=JSON.parse(localStorage.getItem('goaliq_millionaire_lb')||'[]');
+    if(!scores.length){content.innerHTML='<p class="lb-empty">No local scores yet. Play a game! ⚽</p>';return;}
+    let html=`<table class="lb-table"><thead><tr><th>Rank</th><th>Name</th><th>Prize</th><th>Date</th></tr></thead><tbody>`;
+    scores.forEach((s,i)=>{
+      html+=`<tr><td class="lb-rank">${medals[i]||'#'+(i+1)}</td><td>${s.name}</td><td class="lb-prize">${fmt(s.score)}</td><td style="color:var(--text-dim);font-size:13px">${s.date}</td></tr>`;
+    });
+    html+=`</tbody></table>`;
+    content.innerHTML=html;
   }
-  document.getElementById('lb-content').innerHTML=html;
 }
 
-// ── CONFETTI ──
+// ═══════════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════════
 function launchConfetti(){
   const colors=['#00e676','#ffd600','#ff1744','#40c4ff','#ea80fc'];
   for(let i=0;i<80;i++){
@@ -802,10 +979,11 @@ function launchConfetti(){
   }
 }
 
-// ── HELPERS ──
+// ═══════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════
 function fmt(n){return '₹'+Number(n).toLocaleString('en-IN');}
 function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1);}
-
 document.getElementById('player-name-input').addEventListener('keydown',e=>{if(e.key==='Enter')startGame();});
 state.mode='journey';
 </script>

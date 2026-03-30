@@ -201,8 +201,8 @@ def play_intro():
     lines = [
         "  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽",
         "",
-        "     KAUN BANEGA CROREPATI",
-        "       — FOOTBALL EDITION —",
+        "     GOAlIQ-MILLIONAIRE",
+        "    — THE ULTIMATE FOOTBALL QUIZ —",
         "",
         "  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽",
     ]

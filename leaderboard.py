@@ -81,7 +81,7 @@ def display_leaderboard():
     leaderboard = load_leaderboard()
 
     print("\n" + "=" * 55)
-    print("       🏆  FOOTBALL KBC — HALL OF FAME  🏆")
+    print("       🏆  GOAlIQ MILLIONAIRE — HALL OF FAME  🏆")
     print("=" * 55)
 
     if not leaderboard:

@@ -13,8 +13,8 @@ def main_menu():
         print("\n")
         print("  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽")
         print()
-        print("     🏆  KAUN BANEGA CROREPATI  🏆")
-        print("          — FOOTBALL EDITION —")
+        print("     🏆  GOAlIQ-MILLIONAIRE  🏆")
+        print("      — THE ULTIMATE FOOTBALL QUIZ —")
         print()
         print("  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽  ⚽")
         print()
@@ -48,7 +48,7 @@ def main_menu():
 
         elif choice == "4":
             clear_screen()
-            print("\n  👋  Thanks for playing Football KBC!")
+            print("\n  👋  Thanks for playing GoalIQ Millionaire!")
             print("  See you on the pitch! ⚽\n")
             break
 
